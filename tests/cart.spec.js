@@ -59,9 +59,25 @@ async function addAnyAvailableProductAndOpenCart(page) {
   try {
     for (let i = 0; i < count; i += 1) {
       if ((await page.locator('body').getAttribute('class'))?.includes('cart-open')) {
-        await page.keyboard.press('Escape').catch(() => {});
-        await page.click('#cartCloseBtn').catch(() => {});
-        await page.click('#cartOverlay').catch(() => {});
+        // await page.keyboard.press('Escape').catch(() => {});
+        // await page.click('#cartCloseBtn').catch(() => {});
+        // await page.click('#cartOverlay').catch(() => {});
+
+        // Try Escape key first
+        await page.keyboard.press('Escape');
+        await page.waitForTimeout(1000);
+        
+        // Check if still open
+        const stillOpen = (await page.locator('body').getAttribute('class'))?.includes('cart-open');
+        if (stillOpen) {
+          // Try close button if it exists and is visible
+          const closeBtn = page.locator('#cartCloseBtn');
+          if (await closeBtn.isVisible({ timeout: 1000 }).catch(() => false)) {
+            await closeBtn.click();
+            await page.waitForTimeout(1000);
+          }
+        }
+
         await expect(page.locator('body')).not.toHaveClass(/cart-open/, { timeout: 6000 });
       }
 
