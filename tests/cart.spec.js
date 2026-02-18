@@ -68,7 +68,7 @@ async function addAnyAvailableProductAndOpenCart(page) {
         await page.waitForTimeout(1000);
         
         // Check if still open
-        const stillOpen = (await page.locator('body').getAttribute('class'))?.includes('cart-open');
+        const stillOpen = (await page.locator('body').getAttribute('class')).includes('cart-open');
         if (stillOpen) {
           // Try close button if it exists and is visible
           const closeBtn = page.locator('#cartCloseBtn');
@@ -78,7 +78,7 @@ async function addAnyAvailableProductAndOpenCart(page) {
           }
         }
 
-        await expect(page.locator('body')).not.toHaveClass(/cart-open/, { timeout: 6000 });
+        await expect(page.locator('body')).not.toHaveClass(/cart-open/, { timeout: 2000 });
       }
 
       const btn = addButtons.nth(i);
