@@ -37,11 +37,10 @@ jobs:
  
       - name: build, and test
         run: |
-          npm run build --if-present
           npm run test --if-present
  
-      - name: Remove node_modules to reduce deployment package size
-        run: rm -rf node_modules        
+      # - name: Remove node_modules to reduce deployment package size
+      #   run: rm -rf node_modules        
  
       # - name: Upload test artifacts
       #   if: failure()
