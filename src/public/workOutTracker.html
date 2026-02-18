@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Workout Tracker · Dashboard</title>
+    <link rel="stylesheet" href="/workOutTracker.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+<div class="brand" id="brandHomeButton">
+  <div class="brand-icon">🏋️</div>
+  <div>
+    <div class="brand-text-main">FitCore</div>
+    <div class="brand-text-sub">Community workout library</div>
+  </div>
+</div>
+
+
+        <div>
+          <div class="nav-section-title">Navigate</div>
+          <nav class="nav-links">
+            <a href="/workout" class="nav-link" data-nav>
+              <span class="nav-pill">🏠</span>
+              <span>Dashboard</span>
+            </a>
+            <a href="/workouts" class="nav-link" data-nav>
+              <span class="nav-pill">💪</span>
+              <span>Workouts</span>
+            </a>
+            <a href="/plans" class="nav-link" data-nav>
+              <span class="nav-pill">📅</span>
+              <span>Plans</span>
+            </a>
+            <a href="/stats" class="nav-link" data-nav>
+              <span class="nav-pill">📊</span>
+              <span>Stats</span>
+            </a>
+            <a href="/sessions" class="nav-link" data-nav>
+              <span class="nav-pill">✅</span>
+              <span>Sessions</span>
+            </a>
+          </nav>
+        </div>
+
+        <div>
+          <button id="themeToggle" class="theme-toggle">
+            <span>🌓</span>
+            <span class="theme-label">Dark</span>
+          </button>
+        </div>
+
+        <div class="nav-footer">Discover, plan, and refine your training.</div>
+      </aside>
+
+      <main class="main">
+        <header class="main-header">
+          <div>
+            <div class="main-title">Dashboard</div>
+            <div class="main-subtitle">
+              Quick overview of favourite workouts and current plans.
+            </div>
+          </div>
+        </header>
+
+        <section class="grid grid-3">
+          <!-- Favourite workout -->
+          <article class="card fade-in">
+            <div class="card-title">Favourite workout</div>
+            <div class="card-subtitle">
+              Based on upvotes from the community.
+            </div>
+            <div class="card-metric" id="dashFavWorkout">–</div>
+            <div class="card-footer">
+              <span id="dashFavWorkoutMeta">No votes yet.</span>
+              <a href="/workouts" class="btn-link">Open workouts →</a>
+            </div>
+          </article>
+
+          <!-- Active plans -->
+          <article class="card fade-in">
+            <div class="card-title">Active plans</div>
+            <div class="card-subtitle">
+              Days this week with a plan in use.
+            </div>
+            <div class="card-metric" id="dashActiveDaysCount">0</div>
+            <div class="card-footer">
+              <span id="dashActiveDaysMeta">Set your weekly plan.</span>
+              <a href="/plans" class="btn-link">Manage plans →</a>
+            </div>
+          </article>
+
+          <!-- Previous plan -->
+          <article class="card fade-in">
+            <div class="card-title">Previous plan preset</div>
+            <div class="card-subtitle">
+              The last preset you used for any day.
+            </div>
+            <div class="card-metric" id="dashPreviousPreset">–</div>
+            <div class="card-footer">
+              <span id="dashPreviousPresetMeta">
+                Once you swap presets, the previous one appears here.
+              </span>
+              <a href="/plans" class="btn-link">View presets →</a>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const brand = document.getElementById("brandHomeButton");
+    if (brand) {
+      brand.style.cursor = "pointer";
+      brand.addEventListener("click", () => {
+        window.location.href = "/index.html";
+      });
+    }
+  });
+</script>
+
+    <script src="/js/common.js" defer></script>
+    <script src="/js/workOutTracker.js" defer></script>
+  </body>
+</html>

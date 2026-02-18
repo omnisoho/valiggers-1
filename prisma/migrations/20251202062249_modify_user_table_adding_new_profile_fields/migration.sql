@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "bio" TEXT,
+ADD COLUMN     "bodyfat" DOUBLE PRECISION,
+ADD COLUMN     "height" DOUBLE PRECISION,
+ADD COLUMN     "pfpUrl" TEXT,
+ADD COLUMN     "weight" DOUBLE PRECISION;

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meal Tracker</title>
+  <link rel="stylesheet" href="nutritionTracker.css">
+</head>
+<body>
+
+<h2 class="calorie-header">
+  Total Calories Right Now: <span id="totalCaloriesValue"></span>
+</h2>
+
+
+  <div class="container">
+    <button class="create-meal-btn">+</button>
+
+    <button class="intake-btn">
+   <!-- 4-bar chart SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+    <path d="M80-120v-80h800v80H80Zm40-120v-280h120v280H120Zm200 0v-480h120v480H320Zm200 0v-360h120v360H520Zm200 0v-600h120v600H720Z"/>
+  </svg>
+</button>
+
+
+    <button class="limit-btn">
+  <!-- Custom SVG icon -->
+  <svg viewBox="0 0 24 24">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8
+             8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+  </svg>
+</button>
+
+
+
+    <div class="meals-section" id="meals-section">
+      <div class="placeholder">No meals yet. Add your first meal!</div>
+    </div>
+  </div>
+
+  <!-- Calorie Limit Warning Modal -->
+<div id="calorieModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-icon">⚠️</div>
+    <h3>Calorie Limit Exceeded!</h3>
+    <p>You have exceeded your daily calorie limit.</p>
+    <div class="modal-buttons">
+      <button id="changePlanBtn" class="modal-btn">Change Calorie Plan</button>
+      <button id="itsFineBtn" class="modal-btn">It's Fine</button>
+    </div>
+  </div>
+</div>
+
+<!-- Global Edit Modal -->
+<div id="editFormModal" class="edit-form-modal">
+  <div class="edit-form-content">
+    <h3>Edit Meal</h3>
+    <input type="text" name="mealName" placeholder="Meal Name" />
+
+    <!-- Meal Type dropdown -->
+    <select name="mealType" required>
+      <option value="" disabled selected>Select Meal Type</option>
+      <option value="breakfast">Breakfast</option>
+      <option value="lunch">Lunch</option>
+      <option value="dinner">Dinner</option>
+      <option value="snack">Snack</option>
+    </select>
+
+    <input type="number" name="calories" placeholder="Calories" />
+    <input type="number" step="0.1" name="protein" placeholder="Protein" />
+    <input type="number" step="0.1" name="fat" placeholder="Fat" />
+    <input type="number" step="0.1" name="sugar" placeholder="Sugar" />
+
+    <div class="modal-buttons">
+      <button id="saveEditBtn">Save</button>
+      <button id="cancelEditBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+  <script src="nutritionTracker.js"></script>
+</body>
+</html>

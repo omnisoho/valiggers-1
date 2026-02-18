@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Workout Tracker · Sessions</title>
+    <link rel="stylesheet" href="/workOutTracker.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand" id="brandHomeButton">
+          <div class="brand-icon">🏋️</div>
+          <div>
+            <div class="brand-text-main">FitCore</div>
+            <div class="brand-text-sub">Community workout library</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="nav-section-title">Navigate</div>
+          <nav class="nav-links">
+            <a href="/workout" class="nav-link" data-nav>
+              <span class="nav-pill">🏠</span>
+              <span>Dashboard</span>
+            </a>
+            <a href="/workouts" class="nav-link" data-nav>
+              <span class="nav-pill">💪</span>
+              <span>Workouts</span>
+            </a>
+            <a href="/plans" class="nav-link" data-nav>
+              <span class="nav-pill">📅</span>
+              <span>Plans</span>
+            </a>
+            <a href="/stats" class="nav-link" data-nav>
+              <span class="nav-pill">📊</span>
+              <span>Stats</span>
+            </a>
+            <a href="/sessions" class="nav-link" data-nav>
+              <span class="nav-pill">✅</span>
+              <span>Sessions</span>
+            </a>
+          </nav>
+        </div>
+
+        <div>
+          <button id="themeToggle" class="theme-toggle">
+            <span>🌓</span>
+            <span class="theme-label">Dark</span>
+          </button>
+        </div>
+
+        <div class="nav-footer">Track your workout state for today.</div>
+      </aside>
+
+      <main class="main">
+        <header class="main-header">
+          <div>
+            <div class="main-title" id="pageTitle">Sessions</div>
+            <div class="main-subtitle" id="subTitle">
+              Your session list is based on today’s preset.
+            </div>
+          </div>
+
+          <div class="sessions-toolbar">
+            <button id="refreshBtn" class="btn btn-ghost">Refresh</button>
+          </div>
+        </header>
+
+        <!-- Toast -->
+        <div id="toast" class="toast hidden"></div>
+
+        <!-- Empty state -->
+        <section id="emptyState" class="card fade-in hidden">
+          <div class="card-title">No sessions for today</div>
+          <div class="card-subtitle">
+            Assign a preset in the Plans page to log your sessions.
+          </div>
+          <div style="margin-top: 12px;">
+            <a class="btn-link" href="/plans">Go to Plans →</a>
+          </div>
+        </section>
+
+        <!-- Main sessions card -->
+        <section id="sessionsCard" class="card fade-in hidden">
+          <div class="sessions-toolbar">
+            <div class="sessions-meta">
+              <div>
+                <div class="muted" style="font-size:11px;">Today's preset</div>
+                <div class="card-title" id="presetName">–</div>
+                <div class="card-subtitle" id="presetMeta">–</div>
+              </div>
+            </div>
+
+            <div class="sessions-meta">
+              <span class="badge badge-accent" id="dayKeyBadge">TODAY</span>
+            </div>
+          </div>
+
+          <div id="sessionsList" class="sessions-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Outdated preset modal -->
+    <div id="sessionUpdateBackdrop" class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-header">
+          <div>
+            <div class="modal-title">Your plan for today changed</div>
+            <div class="modal-subtext">
+              You edited today’s preset after sessions were created.
+            </div>
+          </div>
+          <button id="updateModalCloseBtn" class="modal-close">Close ✕</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-section-title">What do you want to do?</div>
+          <div class="list">
+            <div class="list-item">
+              <div class="list-title">Continue with old sessions</div>
+              <div class="list-meta">
+                Keeps your current session list (no change).
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-title">Switch to updated preset</div>
+              <div class="list-meta">
+                Archives old sessions and rebuilds using the latest preset.
+              </div>
+            </div>
+          </div>
+
+          <div class="row row-right" style="margin-top: 12px;">
+            <button id="keepOldBtn" class="btn btn-ghost">Continue old</button>
+            <button id="switchBtn" class="btn">Switch to updated</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const brand = document.getElementById("brandHomeButton");
+        if (brand) {
+          brand.style.cursor = "pointer";
+          brand.addEventListener("click", () => (window.location.href = "/index.html"));
+        }
+      });
+    </script>
+
+    <script src="/js/common.js" defer></script>
+    <script src="/js/sessions.js" defer></script>
+  </body>
+</html>

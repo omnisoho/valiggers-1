@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resource Library</title>
+  <link rel="stylesheet" href="/css/resources.css">
+</head>
+<body class="resource-page-body">
+  <div class="resource-page">
+
+    <header class="resource-header">
+      <h1>Fitness Resource Library</h1>
+      <a href="/index.html">Back</a>
+    </header>
+
+
+<main class="resource-main">
+  <section class="filters">
+    <input
+      type="text"
+      id="search"
+      placeholder="Search resources..."
+    />
+
+    <select id="category">
+      <option value="">All categories</option>
+      <option value="strength">Strength Training</option>
+      <option value="nutrition">Nutrition</option>
+      <option value="recovery">Recovery</option>
+      <option value="mobility">Mobility</option>
+      <option value="mindset">Mindset</option>
+    </select>
+
+    <select id="difficulty">
+      <option value="">All levels</option>
+      <option value="BEGINNER">Beginner</option>
+      <option value="INTERMEDIATE">Intermediate</option>
+      <option value="ADVANCED">Advanced</option>
+    </select>
+
+    <select id="type">
+      <option value="">All types</option>
+      <option value="ARTICLE">Article</option>
+      <option value="VIDEO">Video</option>
+      <option value="LINK">Link</option>
+      <option value="PDF">PDF</option>
+    </select>
+  </section>
+
+  <button id="applyFiltersBtn">Apply filters</button>
+  <button id="resetResourceFiltersBtn" class="reset-btn">Reset</button>
+
+  <div id="status"></div>
+
+  <section class="resource-list" id="resourceList">
+    <!-- JS will inject cards here -->
+  </section>
+    <section class="news-section">
+    <div class="news-header">
+      <h2>Latest Fitness Highlights</h2>
+      <p>Curated articles, studies, and trends from the fitness world.</p>
+    </div>
+
+    <div class="news-carousel-wrapper">
+      <button class="news-nav news-nav-left" id="newsPrevBtn">&#10094;</button>
+
+      <div class="news-carousel" id="newsCarousel">
+        <!-- JS will inject news cards here -->
+      </div>
+
+      <button class="news-nav news-nav-right" id="newsNextBtn">&#10095;</button>
+    </div>
+  </section>
+      <section class="exercise-entry">
+  <h2>Exercise Library</h2>
+  <p class="exercise-entry-sub">
+    Browse exercises by body part, difficulty, or equipment.
+  </p>
+
+  <div class="exercise-entry-buttons">
+    <a href="/exercises.html?bodyPart=ABS" class="exercise-entry-btn">Abs</a>
+    <a href="/exercises.html?bodyPart=BACK" class="exercise-entry-btn">Back</a>
+    <a href="/exercises.html?bodyPart=CHEST" class="exercise-entry-btn">Chest</a>
+    <a href="/exercises.html?bodyPart=LEGS" class="exercise-entry-btn">Legs</a>
+    <a href="/exercises.html" class="exercise-entry-btn main-btn">View All Exercises</a>
+  </div>
+</section>
+</main>
+
+  </div>
+
+  <script src="/resources.js"></script>
+</body>
+</html>

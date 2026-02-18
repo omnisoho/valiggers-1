@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitCore | Challenges</title>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./challenges.css" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark premium-nav">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="./index.html">
+        <div class="logo-box"><i data-lucide="flame"></i></div>
+        <span class="ms-2 fw-bold logo-text">FitCore</span>
+      </a>
+
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-center" id="navMenu">
+        <ul class="navbar-nav gap-4">
+          <li class="nav-item"><a class="nav-link" href="./nutrition.html">Nutrition</a></li>
+          <li class="nav-item"><a class="nav-link" href="./discover.html">Discover</a></li>
+          <li class="nav-item"><a class="nav-link" href="./workouts.html">Workout</a></li>
+          <li class="nav-item"><a class="nav-link" href="./plans.html">Smart Grocery</a></li>
+          <li class="nav-item"><a class="nav-link" href="./store.html">Store</a></li>
+          <li class="nav-item"><a class="nav-link" href="./coaching.html">Coaching</a></li>
+          <li class="nav-item"><a class="nav-link active" href="./challenges.html">Challenges</a></li>
+        </ul>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="points-pill" title="Total Points">
+          <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
+          <span class="pts" id="navPoints">—</span>
+        </div>
+
+        <a class="btn btn-sm btn-outline-light" href="./profile.html" title="Profile">
+          <i data-lucide="user" style="width:18px;height:18px;"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="ch-container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Challenges</h1>
+        <p class="page-subtitle">Complete daily challenges, earn points, and redeem rewards.</p>
+      </div>
+
+      <div class="segmented" role="tablist" aria-label="Challenges and Rewards">
+        <button id="tabChallenges" class="segmented-btn active" type="button" role="tab" aria-selected="true">Challenges</button>
+        <button id="tabRewards" class="segmented-btn" type="button" role="tab" aria-selected="false">Rewards</button>
+      </div>
+    </div>
+
+    <section id="panelChallenges" class="panel active" aria-labelledby="tabChallenges">
+      <div class="grid">
+        <div class="card half">
+          <div class="card-content">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+              <div>
+                <h2 class="card-title" id="challengeTitle">Complete 1 Session</h2>
+                <p class="card-desc" id="challengeDesc">Finish one workout session today.</p>
+              </div>
+              <span class="status-badge accepted" id="challengeStatus">ACCEPTED</span>
+            </div>
+
+            <div class="meta">
+              <span class="meta-chip" id="challengeReward">Reward: +50 points</span>
+              <span class="meta-chip">Resets daily</span>
+              <span class="meta-chip" id="challengeProgressText">Progress: 0 / 1</span>
+            </div>
+
+            <div class="progress-row">
+              <div class="progress-bar" aria-label="Challenge progress">
+                <div id="challengeProgressBar"></div>
+              </div>
+              <div id="challengeDoneHint"></div>
+            </div>
+
+            <div class="btn-row">
+              <button class="btn primary" id="btnAcceptChallenge" type="button" style="display:none;">Accept Challenge</button>
+              <a class="btn primary" id="btnGoSessions" href="./sessions.html" style="display:none;">Go to Sessions</a>
+              <button class="btn" id="btnRefreshChallenge" type="button">Refresh</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card half">
+          <div class="card-content">
+            <h2 class="card-title">How it works</h2>
+            <p class="card-desc" id="howItWorksText">
+              Accept today’s challenge, then complete a session to finish it.
+            </p>
+
+            <div class="meta" style="margin-top:10px;">
+              <span class="meta-chip">Today</span>
+              <span class="meta-chip" id="todayStateHint">—</span>
+            </div>
+
+            <div class="meta" style="margin-top:10px;">
+              <span class="meta-chip">Yesterday</span>
+              <span class="meta-chip" id="yesterdayStateHint">—</span>
+            </div>
+
+            <div class="empty-state" id="challengeErrorBox" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panelRewards" class="panel" aria-labelledby="tabRewards">
+      <div class="grid">
+        <div class="card wide">
+          <div class="card-content" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2 class="card-title">Your Points</h2>
+              <p class="card-desc">Use points to redeem vouchers. (Vouchers are stored locally for now.)</p>
+            </div>
+            <div class="points-pill" style="padding:12px 14px;">
+              <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
+              <span style="color:var(--muted);font-weight:700;">Total:</span>
+              <span class="pts" id="pointsTotal">—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card half">
+          <div class="card-content">
+            <h2 class="card-title">Available Vouchers</h2>
+            <p class="card-desc">Redeem with points (points deduct from your account).</p>
+            <div id="voucherList"></div>
+            <div class="empty-state" id="voucherErrorBox" style="display:none;"></div>
+          </div>
+        </div>
+
+        <div class="card half">
+          <div class="card-content">
+            <h2 class="card-title">Your Vouchers</h2>
+            <p class="card-desc">Vouchers you’ve redeemed (display-only).</p>
+            <div id="ownedVoucherList"></div>
+            <div class="empty-state" id="noOwnedVouchers" style="display:none;">You don’t have any vouchers yet.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./challenges.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

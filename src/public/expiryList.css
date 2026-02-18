@@ -1,0 +1,140 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f6f8fb;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  padding-bottom: 40px;
+}
+
+header h1 {
+  font-weight: 700;
+}
+
+/* container */
+.expiry-container {
+  margin-top: 10px;
+}
+
+/* card list */
+.expiry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* bubble row */
+.expiry-item {
+  background: white;
+  border-radius: 16px;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.expiry-item:hover {
+  transform: translateY(-2px);
+}
+
+/* urgency color bar */
+.expiry-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  border-radius: 16px 0 0 16px;
+}
+
+/* color states */
+.safe::before { background: #22c55e; }
+.warning::before { background: #facc15; }
+.danger::before { background: #f97316; }
+.expired::before { background: #dc3545; }
+
+/* expired item background */
+.expired {
+  background: #fff1f1;
+}
+
+/* ingredient info */
+.item-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  font-size: 1.3rem; /* was 1.1rem */
+  font-weight: 600;
+}
+
+.expiry-date {
+  font-size: 1rem; /* was 0.9rem */
+  color: #666;
+  margin-top: 4px;
+}
+
+/* right side badge */
+.item-right {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* a bit more spacing */
+}
+
+/* days bubble */
+.days-badge {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem; /* was 0.85rem */
+}
+
+.days-safe {
+  background: #e7f9ef;
+  color: #15803d;
+}
+
+.days-warning {
+  background: #fff6db;
+  color: #a16207;
+}
+
+.days-danger {
+  background: #ffe6d5;
+  color: #c2410c;
+}
+
+.days-expired {
+  background: #ffd6d6;
+  color: #b91c1c;
+}
+
+/* exclamation bubble */
+.expired-flag {
+  background: #dc3545;
+  color: white;
+  width: 28px;   /* was 24px */
+  height: 28px;  /* was 24px */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+#empty-msg {
+  padding: 30px;
+  color: #777;
+}

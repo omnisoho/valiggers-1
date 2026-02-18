@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitCore | Payment</title>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="./louis_css/payment.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./store.html" aria-label="FitCore Store">
+        <div class="logo-box">
+          <i data-lucide="flame"></i>
+        </div>
+        <span class="brand-text">FitCore</span>
+      </a>
+
+      <div class="checkout-note">
+        <i data-lucide="shield-check"></i>
+        <span>Secure Checkout</span>
+      </div>
+
+      <div class="actions">
+        <a href="./store.html" class="icon-btn" aria-label="Back to store" title="Back to store">
+          <i data-lucide="arrow-left"></i>
+        </a>
+        <button class="icon-btn" aria-label="Help" title="Help">
+          <i data-lucide="circle-help"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="subnav" id="subnav" aria-label="Checkout steps">
+    <div class="subnav-inner">
+      <span class="step-chip current" id="stepPayment">
+        <i data-lucide="credit-card"></i>
+        Payment
+      </span>
+      <span class="step-chip" id="stepConfirm">
+        <i data-lucide="badge-check"></i>
+        Confirm
+      </span>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="section-head">
+      <h1 class="title">Payment</h1>
+      <p class="meta">Complete your order in one secure step.</p>
+    </section>
+    <p class="session-message hidden" id="sessionMessage"></p>
+
+    <section class="payment-layout" id="paymentLayout">
+      <article class="panel" id="paymentPanel">
+        <header class="panel-head">
+          <h2>Payment Method</h2>
+          <p>Card payment only.</p>
+        </header>
+
+        <div class="method-grid">
+          <div class="method-card active">
+            <div class="method-top">
+              <i data-lucide="credit-card"></i>
+              <span>Card</span>
+            </div>
+            <p>Visa, Mastercard, AMEX</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>Cardholder Name</span>
+            <input id="cardName" type="text" placeholder="John Tan" />
+          </label>
+
+          <label class="field wide">
+            <span>Card Number</span>
+            <input id="cardNumber" type="text" placeholder="1234 5678 9012 3456" inputmode="numeric" maxlength="19" />
+          </label>
+
+          <label class="field">
+            <span>Expiry Date</span>
+            <input id="cardExpiry" type="text" placeholder="MM/YY" inputmode="numeric" maxlength="5" />
+          </label>
+
+          <label class="field">
+            <span>CVV</span>
+            <input id="cardCvv" type="text" placeholder="123" inputmode="numeric" maxlength="4" />
+          </label>
+        </div>
+
+        <header class="panel-head second">
+          <h2>Billing Address</h2>
+          <p>Used for invoice and verification.</p>
+        </header>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>First Name</span>
+            <input id="billFirstName" type="text" placeholder="John" />
+          </label>
+
+          <label class="field">
+            <span>Last Name</span>
+            <input id="billLastName" type="text" placeholder="Tan" />
+          </label>
+
+          <label class="field wide">
+            <span>Street Address</span>
+            <input id="billAddress" type="text" placeholder="Blk 123, Fitness Ave" />
+          </label>
+
+          <label class="field">
+            <span>Postal Code</span>
+            <input id="billPostal" type="text" placeholder="123456" />
+          </label>
+
+          <label class="field">
+            <span>Country</span>
+            <input id="billCountry" type="text" placeholder="Singapore" />
+          </label>
+        </div>
+      </article>
+
+      <aside class="summary">
+        <header class="summary-head">
+          <h2>Order Summary</h2>
+          <span id="summaryCount">0 items</span>
+        </header>
+
+        <div class="summary-items" id="summaryItems"></div>
+
+        <div class="totals">
+          <div class="total-line">
+            <span>Subtotal</span>
+            <span id="subtotalValue">$0.00</span>
+          </div>
+          <div class="total-line">
+            <span>Shipping</span>
+            <span id="shippingValue">$0.00</span>
+          </div>
+          <div class="total-line grand">
+            <span>Total</span>
+            <span id="totalValue">$0.00</span>
+          </div>
+        </div>
+
+        <button class="pay-btn" id="payBtn" type="button">
+          <i data-lucide="lock"></i>
+          Pay Securely
+        </button>
+        <button class="cancel-btn" id="cancelBtn" type="button">
+          Cancel Order
+        </button>
+      </aside>
+    </section>
+
+    <section class="confirm-panel hidden" id="confirmPanel" aria-live="polite">
+      <div class="confirm-icon">
+        <i data-lucide="badge-check"></i>
+      </div>
+      <h2>Payment Successful</h2>
+      <p>Your order has been confirmed. This is a simulated success flow for your assignment.</p>
+      <p class="confirm-order">Order ID: <strong id="orderIdText"></strong></p>
+      <div class="confirm-actions">
+        <a class="confirm-btn" href="./store.html">Back to Store</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="./louis_js/payment.js" defer></script>
+</body>
+</html>

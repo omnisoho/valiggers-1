@@ -1,0 +1,51 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js app to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+ 
+env:
+  DATABASE_URL: ${{ vars.DATABASE_URL }}
+  PORT: ${{ vars.PORT }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+ 
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      # id-token: write # Required for requesting the JWT
+      contents: read #This is required for actions/checkout
+ 
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '24.x'
+ 
+      - name: npm install project dependencies
+        run: npm install
+ 
+      - name: Install playwright browsers
+        run: npx playwright install
+ 
+      - name: build, and test
+        run: |
+          npm run build --if-present
+          npm run test --if-present
+ 
+      - name: Remove node_modules to reduce deployment package size
+        run: rm -rf node_modules        
+ 
+      # - name: Upload test artifacts
+      #   if: failure()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: playwright-traces
+      #     path: test-results

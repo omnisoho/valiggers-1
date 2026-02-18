@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Intake Tracker</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="intake.css" />
+  </head>
+  <body>
+
+    <div class="container">
+      <h1 class="calorie-header">Daily Intake Tracker</h1>
+
+      <div class="custom-input">
+        <button data-period="today">Today</button>
+        <button data-period="yesterday">Yesterday</button>
+        <button data-period="weekly">Weekly</button>
+        <button data-period="monthly">Monthly</button>
+
+        <!-- NEW NUTRIENT BUTTONS -->
+        <button data-nutrient="fats">Fats</button>
+        <button data-nutrient="protein">Protein</button>
+        <button data-nutrient="sugar">Sugar</button>
+      </div>
+
+      <div id="summary"></div>
+
+      <!-- Chart container wrapper -->
+      <div id="chartContainer">
+        <canvas id="intakeChart" class="chart-glow"></canvas>
+      </div>
+
+      <div id="tableContainer"></div>
+    </div>
+
+    <script src="intake.js"></script>
+  </body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Workout Tracker · Workouts</title>
+    <link rel="stylesheet" href="/workOutTracker.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+<div class="brand" id="brandHomeButton">
+  <div class="brand-icon">🏋️</div>
+  <div>
+    <div class="brand-text-main">FitCore</div>
+    <div class="brand-text-sub">Community workout library</div>
+  </div>
+</div>
+
+
+        <div>
+          <div class="nav-section-title">Navigate</div>
+          <nav class="nav-links">
+            <a href="/workout" class="nav-link" data-nav>
+              <span class="nav-pill">🏠</span>
+              <span>Dashboard</span>
+            </a>
+            <a href="/workouts" class="nav-link" data-nav>
+              <span class="nav-pill">💪</span>
+              <span>Workouts</span>
+            </a>
+            <a href="/plans" class="nav-link" data-nav>
+              <span class="nav-pill">📅</span>
+              <span>Plans</span>
+            </a>
+            <a href="/stats" class="nav-link" data-nav>
+              <span class="nav-pill">📊</span>
+              <span>Stats</span>
+            </a>
+            <a href="/sessions" class="nav-link" data-nav>
+              <span class="nav-pill">✅</span>
+              <span>Sessions</span>
+            </a>
+          </nav>
+        </div>
+
+        <div>
+          <button id="themeToggle" class="theme-toggle">
+            <span>🌓</span>
+            <span class="theme-label">Dark</span>
+          </button>
+        </div>
+
+        <div class="nav-footer">
+          Search, rate, and comment on workouts.
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="main-header">
+          <div>
+            <div class="main-title">Workouts</div>
+            <div class="main-subtitle">
+              Discover community workouts, upvote your favourites, and add your own.
+            </div>
+          </div>
+          <button id="addWorkoutBtn" class="btn-pill">
+            + Add workout
+          </button>
+        </header>
+
+        <section>
+          <div class="toolbar">
+            <input
+              id="searchInput"
+              class="input"
+              type="text"
+              placeholder="Search by name, muscle group or difficulty..."
+            />
+            <button id="searchBtn" class="btn-pill" style="padding:4px 12px;">
+              Search
+            </button>
+            <select id="sortSelect" class="select">
+              <option value="name-asc">Sort: Name (A–Z)</option>
+              <option value="upvotes-desc">Sort: Most upvoted</option>
+              <option value="newest-desc">Sort: Newest</option>
+            </select>
+          </div>
+
+          <!-- Scrollable workout list -->
+          <div class="workout-section-scroll">
+            <div id="workoutGrid" class="workout-grid"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- WORKOUT DETAIL MODAL -->
+    <div id="workoutModalBackdrop" class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-header">
+          <div>
+            <div id="modalWorkoutName" class="modal-title"></div>
+            <div id="modalWorkoutMeta" class="modal-subtext"></div>
+          </div>
+          <button id="modalCloseBtn" class="modal-close">Close ✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-section-title">Description</div>
+          <div id="modalWorkoutDescription"></div>
+
+          <div class="modal-section-title">Details</div>
+          <div id="modalWorkoutDetails"></div>
+
+          <div class="modal-section-title">Reactions</div>
+          <div style="display:flex;align-items:center;gap:10px;margin:6px 0;">
+            <button id="modalUpvoteBtn" class="btn-pill" style="padding:4px 10px;font-size:11px;">
+              👍 Upvote <span id="modalUpvoteCount"></span>
+            </button>
+            <button id="modalDownvoteBtn" class="btn-pill" style="padding:4px 10px;font-size:11px;">
+              👎 Downvote <span id="modalDownvoteCount"></span>
+            </button>
+            <a href="/stats" id="modalViewStatsLink" class="btn-link">
+              View stats for this workout →
+            </a>
+          </div>
+
+          <div class="modal-section-title">Comments</div>
+          <div id="modalCommentsList" class="list"></div>
+
+          <form id="commentForm" class="form" style="margin-top:10px;">
+            <input
+              type="text"
+              id="commentUsername"
+              class="input"
+              placeholder="Name (optional, default: Guest)"
+            />
+            <textarea
+              id="commentText"
+              placeholder="Share what you liked or disliked about this workout."
+              required
+            ></textarea>
+            <button type="submit" class="btn-pill">Post comment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD WORKOUT MODAL -->
+    <div id="addWorkoutBackdrop" class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-title">Add new workout</div>
+          <button id="addWorkoutCloseBtn" class="modal-close">Close ✕</button>
+        </div>
+        <div class="modal-body">
+          <form id="addWorkoutForm" class="form">
+            <input
+              id="newWorkoutName"
+              class="input"
+              type="text"
+              placeholder="Workout name (e.g. Bulgarian Split Squat)"
+              required
+            />
+
+            <select id="newWorkoutMuscle" class="select" required>
+              <option value="">Muscle group</option>
+              <option value="Chest">Chest</option>
+              <option value="Back">Back</option>
+              <option value="Legs">Legs</option>
+              <option value="Shoulders">Shoulders</option>
+              <option value="Arms">Arms</option>
+              <option value="Core">Core</option>
+              <option value="Full body">Full body</option>
+            </select>
+
+            <select id="newWorkoutDifficulty" class="select">
+              <option value="">Difficulty (1–5)</option>
+              <option value="1">1 - Very easy</option>
+              <option value="2">2 - Easy</option>
+              <option value="3">3 - Moderate</option>
+              <option value="4">4 - Hard</option>
+              <option value="5">5 - Very hard</option>
+            </select>
+
+            <input
+              id="newWorkoutDuration"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="Typical duration (minutes)"
+            />
+            <input
+              id="newWorkoutSets"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="Sets"
+            />
+            <input
+              id="newWorkoutReps"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="Reps"
+            />
+
+            <textarea
+              id="newWorkoutDescription"
+              placeholder="Describe how this workout is performed, key cues, and what it trains."
+              required
+            ></textarea>
+
+            <button type="submit" class="btn-pill">
+              Save workout
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDIT WORKOUT MODAL -->
+    <div id="editWorkoutBackdrop" class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-title">Edit workout</div>
+          <button id="editWorkoutCloseBtn" class="modal-close">Close ✕</button>
+        </div>
+        <div class="modal-body">
+          <form id="editWorkoutForm" class="form">
+            <input
+              id="editWorkoutName"
+              class="input"
+              type="text"
+              placeholder="Workout name"
+              required
+            />
+
+            <select id="editWorkoutMuscle" class="select" required>
+              <option value="">Muscle group</option>
+              <option value="Chest">Chest</option>
+              <option value="Back">Back</option>
+              <option value="Legs">Legs</option>
+              <option value="Shoulders">Shoulders</option>
+              <option value="Arms">Arms</option>
+              <option value="Core">Core</option>
+              <option value="Full body">Full body</option>
+            </select>
+
+            <select id="editWorkoutDifficulty" class="select">
+              <option value="">Difficulty (1–5)</option>
+              <option value="1">1 - Very easy</option>
+              <option value="2">2 - Easy</option>
+              <option value="3">3 - Moderate</option>
+              <option value="4">4 - Hard</option>
+              <option value="5">5 - Very hard</option>
+            </select>
+
+            <input
+              id="editWorkoutDuration"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="Typical duration (minutes)"
+            />
+            <input
+              id="editWorkoutSets"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="Sets"
+            />
+            <input
+              id="editWorkoutReps"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="Reps"
+            />
+
+            <textarea
+              id="editWorkoutDescription"
+              placeholder="Describe how this workout is performed, key cues, and what it trains."
+              required
+            ></textarea>
+
+            <button type="submit" class="btn-pill">
+              Save changes
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const brand = document.getElementById("brandHomeButton");
+    if (brand) {
+      brand.style.cursor = "pointer";
+      brand.addEventListener("click", () => {
+        window.location.href = "/index.html";
+      });
+    }
+  });
+</script>
+
+    <script src="/js/common.js" defer></script>
+    <script src="/js/workouts.js" defer></script>
+  </body>
+</html>

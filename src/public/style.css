@@ -1,0 +1,261 @@
+:root {
+  --navy-dark: #070709;
+  --navy-mid: #0b1224;
+  --accent: #4cc9f0;  /* neon blue */
+  --accent-glow: 0 0 18px rgba(76, 201, 240, 0.4);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Background */
+.bg-navy {
+  background: var(--navy-dark);
+  color: white;
+}
+
+/* NAVBAR */
+.premium-nav {
+  background: rgba(7, 11, 18, 0.7);
+  padding: 16px 0;
+}
+
+.logo-box {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: #000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--accent-glow);
+}
+
+.logo-text {
+  font-size: 1.4rem;
+}
+
+.lead {
+  font-size: 1.2rem !important;
+  line-height: 1.5;
+}
+
+/* Nav links */
+.nav-link {
+  color: #d9d9d9 !important;
+  font-weight: 500;
+  transition: 0.2s;
+}
+.nav-link:hover {
+  color: var(--accent) !important;
+}
+
+.login-btn {
+  border-radius: 8px;
+  padding: 6px 16px;
+  border: 1px solid #fff;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(40%) contrast(1.1);
+  z-index: -2;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(7, 11, 24, 0.75),
+    rgba(7, 11, 24, 0.4)
+  );
+  z-index: -1;
+}
+
+/* Smooth bottom fade for hero video using --navy-dark */
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  pointer-events: none;
+  z-index: 5;
+
+  /* Fade from transparent to your exact navy-dark color */
+  background: linear-gradient(
+    to bottom,
+    rgba(7, 7, 9, 0) 0%,        /* fully transparent */
+    rgba(7, 7, 9, 0.3) 40%,     /* light fade */
+    rgba(7, 7, 9, 0.65) 70%,    /* deeper fade */
+    rgba(7, 7, 9, 1) 100%       /* full --navy-dark (#070709) */
+  );
+}
+
+.hero-content h1 {
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+/* Scroll Indicator Arrow */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 1.6s infinite ease-in-out;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-indicator i {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+/* Bounce animation */
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* Hidden state after scrolling */
+.scroll-indicator.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Buttons */
+.btn-accent {
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 12px 26px;
+  box-shadow: var(--accent-glow);
+  transition: 0.25s ease;
+}
+.btn-accent:hover {
+  transform: scale(1.05);
+  opacity: 0.95;
+}
+
+/* ================================
+   UNIFIED FEATURE CARD DESIGN
+   ================================ */
+
+.features-section .feature-card {
+  background: var(--navy-mid);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 0 25px rgba(0,0,0,0.35);
+  text-align: center;
+  padding: 40px 28px;
+  height: 330px;               /* 🔥 Forces consistent card height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.features-section .feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 35px rgba(76, 201, 240, 0.25);
+}
+
+/* ICON FIX — consistent size & glow */
+.features-section .feature-icon {
+  width: 70px;
+  height: 70px;
+  background: var(--accent);
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  margin: 0 auto 18px auto;
+  box-shadow: 0 0 20px rgba(76, 201, 240, 0.45);
+}
+
+/* FEATURE TITLE */
+.features-section .feature-card h4 {
+  color: white;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-top: 12px;
+  margin-bottom: 10px;
+}
+
+/* DESCRIPTION FIX (no more faded grey) */
+.features-section .feature-card p {
+  color: rgba(255,255,255,0.85);   /* 🔥 clean, readable, not too bright */
+  font-size: 0.95rem;
+  line-height: 1.45;
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+/* CTA */
+.cta-card {
+  background: var(--navy-mid);
+  border-radius: 20px;
+  border: 1px solid #131a31;
+}
+
+/* Footer */
+.footer {
+  opacity: 0.6;
+}
+
+/* Simple fade animations */
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 1s forwards ease-out;
+}
+.fade-up.delay-1 { animation-delay: 0.3s; }
+.fade-up.delay-2 { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* WHY FITCORE SECTION */
+.why-section {
+  margin-top: 100px;
+  background: transparent;
+  padding-top: 250px;
+  padding-bottom: 40px;
+}
+
+.why-section h2 {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.why-desc {
+  max-width: 620px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+}

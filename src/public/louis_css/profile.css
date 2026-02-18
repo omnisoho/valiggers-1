@@ -1,0 +1,634 @@
+body {
+    background-image: url("../videos/gym2.png"); /* change path if needed */
+    background-size: cover;        /* fills whole screen */
+    background-position: center;   /* centers the gym */
+    background-repeat: no-repeat;  /* no tile */
+    background-attachment: fixed;  /* parallax vibe */
+    min-height: 100vh;
+    color: white;
+    font-family: "Inter", sans-serif;
+    padding-top: 70px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7); /* darkness overlay */
+    backdrop-filter: blur(2px);   /* optional */
+    z-index: -1;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+:root {
+  --navy-dark: #070709;
+  --navy-mid: #0b1224;
+  --accent: #4cc9f0;
+  --accent-glow: 0 0 18px rgba(76, 201, 240, 0.4);
+}
+
+/* NAVBAR */
+.premium-nav {
+  background: rgba(7, 11, 18, 0.7);
+  backdrop-filter: blur(14px);
+  padding: 16px 0;
+}
+
+.logo-box {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: #000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--accent-glow);
+}
+
+.logo-text {
+  font-size: 1.4rem;
+}
+
+.nav-link {
+  color: #d9d9d9 !important;
+  font-weight: 500;
+  transition: 0.2s;
+}
+.nav-link:hover {
+  color: var(--accent) !important;
+}
+
+.login-btn {
+  border-radius: 8px;
+  padding: 6px 16px;
+  border: 1px solid #fff;
+}
+
+/* Cards */
+.card-dark {
+    background: rgba(18, 22, 32, 0.9);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+}
+
+/* Profile Picture */
+.pfp {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #4cc9f0;
+}
+
+/* Buttons */
+.btn-glow {
+    padding: 6px 14px;
+    background: #4cc9f0;
+    color: black;
+    border-radius: 10px;
+    border: none;
+    transition: 0.2s;
+    font-weight: 600;
+}
+
+.btn-glow:hover {
+    background: #38b3da;
+    transform: scale(1.03);
+}
+
+.btn-save {
+    background: transparent;
+    border: 1px solid #4cc9f0;
+    padding: 8px 18px;
+    border-radius: 10px;
+    color: #4cc9f0;
+    transition: 0.2s;
+}
+
+.btn-save:hover {
+    background: #4cc9f0;
+    color: black;
+}
+
+/* Inputs */
+.input-dark {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+}
+
+.input-dark:focus {
+    background: rgba(255,255,255,0.1);
+    border-color: #4cc9f0;
+    color: white;
+}
+
+/* Icon Buttons */
+.btn-icon {
+    background: rgba(255,255,255,0.08);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border: none;
+}
+
+.btn-icon:hover {
+    background: #4cc9f0;
+    color: black;
+}
+
+/* Notes */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 15px;
+}
+
+.note-card {
+    background: rgba(255,255,255,0.06);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    word-wrap: break-word;
+    min-height: 120px;
+}
+
+.note-pin {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    color: #4cc9f0;
+    font-size: 18px;
+}
+
+.goal-item {
+    background: rgba(255,255,255,0.06);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.goal-complete {
+    color: #4cc9f0;
+    cursor: pointer;
+    float: right;
+}
+
+/* ============================
+   LOGOUT MODAL + OVERLAY
+============================ */
+
+.logout-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(8px) brightness(40%);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout-modal {
+    width: 360px;
+    padding: 24px;
+    border-radius: 16px;
+}
+
+.btn-cancel {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    color: #fff;
+    transition: 0.2s;
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.btn-confirm {
+    background: #ff4d4d;
+    color: #000;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-confirm:hover {
+    background: #ff1f1f;
+    color: black;
+}
+
+
+.btn-logout {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid #4cc9f0;
+    color: #4cc9f0;
+    padding: 6px 14px;
+    border-radius: 10px;
+    transition: 0.2s;
+    font-weight: 600;
+}
+
+.btn-logout:hover {
+    background: #4cc9f0;
+    color: black;
+}
+
+.profile-header {
+    align-items: center;
+    position: relative; /* so .profile-options is relative to the card */
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-logout {
+    background: rgba(255, 80, 80, 0.15);
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    padding: 6px 14px;
+    border-radius: 10px;
+    transition: 0.2s;
+    font-weight: 600;
+}
+
+.btn-logout:hover {
+    background: #ff4d4d;
+    color: black;
+}
+
+/* PROFILE BIO */
+.profile-bio {
+    opacity: 0.75;
+    font-size: 0.95rem;
+}
+
+.profile-options {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+}
+
+.options-btn {
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* REMOVE BLUE BORDER FROM PFP */
+.pfp {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+/* MINI STATS GRID */
+.mini-stats-grid {
+    display: flex;
+    gap: 16px;
+    position: relative;
+}
+
+.mini-stat-box {
+    min-width: 120px;
+    padding: 6px 12px;
+    background: transparent; /* remove background box */
+    border: none; /* remove border */
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.mini-stats-grid .mini-stat-box:last-child {
+    border-right: none; /* no line on last item */
+}
+
+.mini-stat-box .label {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    display: block;
+}
+
+.mini-stat-box .value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent) !important;
+}
+
+/* EDIT ICON */
+.edit-icon {
+    position: absolute;
+    right: -45px;
+    top: 0;
+}
+
+/* CUSTOM MODAL */
+.custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px) brightness(40%);
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-pfp {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+}
+
+.custom-modal {
+    width: 500px;
+    padding: 26px;
+    border-radius: 18px;
+}
+
+textarea.input-dark {
+    resize: none;
+}
+
+.mini-stat-box .value {
+    color: var(--accent) !important;
+    font-weight: 600;
+}
+
+.mini-stats-grid {
+    padding-right: 0px; /* creates space so the dropdown sits cleanly */
+}
+
+/* PREMIUM DROPDOWN MENU */
+.dropdown-menu-dark {
+    background: rgba(20, 24, 34, 0.85) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 10px 0;
+    min-width: 140px;
+    transform: translateY(8px); /* sits nicely under 3 dots */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+/* ITEM STYLE */
+.dropdown-menu-dark .dropdown-item {
+    color: #dcdcdc !important;
+    padding: 10px 16px;
+    font-size: 0.92rem;
+    border-radius: 6px;
+    transition: 0.15s ease;
+}
+
+/* HOVER */
+.dropdown-menu-dark .dropdown-item:hover {
+    background: rgba(255,255,255,0.08) !important;
+    color: var(--accent) !important;
+    transform: translateX(3px);
+}
+
+/* FIRST + LAST ITEM SPACING */
+.dropdown-menu-dark .dropdown-item:first-child {
+    margin-bottom: 4px;
+}
+
+/* SMALL TRIANGLE POINTER */
+/* Triangle pointer perfectly aligned under the 3 dots */
+.dropdown-menu-dark::before {
+    content: "";
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+    background: rgba(20, 24, 34, 0.85);
+    border-left: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    transform: rotate(45deg);
+    border-radius: 2px;
+
+    top: -6px;
+    left: calc(18px - 5px); /* center the triangle under the button */
+}
+
+/* MAKE LOGOUT TEXT RED BY DEFAULT */
+.dropdown-menu-dark .logout-item {
+    color: #ff4d4d !important;
+    font-weight: 500;
+}
+
+/* RED HOVER BEHAVIOR */
+.dropdown-menu-dark .logout-item:hover {
+    background: rgba(255, 80, 80, 0.15) !important;
+    color: #ff1f1f !important;
+    transform: translateX(3px);
+}
+
+/* Fix overlap with navbar */
+.custom-modal-overlay {
+    padding-top: 80px; 
+}
+
+/* Horizontal modal layout */
+.modal-flex {
+    display: flex;
+    gap: 30px;
+}
+
+.modal-left {
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   /* <-- THIS is what centers the button */
+    gap: 12px;              /* spacing between PFP & button */
+}
+
+.modal-right {
+    flex: 1;
+}
+
+/* Make modal wider but not taller */
+.custom-modal {
+    width: 650px; 
+    padding: 28px;
+}
+
+/* Adjust PFP in modal */
+.modal-pfp {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* EDIT PFP BUTTON (Image + Pencil) */
+.edit-pfp-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 8px 14px;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.edit-pfp-btn i {
+    font-size: 17px;
+}
+
+.edit-pfp-btn:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Better spacing for stats fields */
+#profileModal label {
+    margin-bottom: 4px;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.profile-header {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#profileModal input {
+    height: 42px;
+}
+
+/* ============================
+   NOTES CARD RESIZING FIX
+============================ */
+.notes-card {
+    padding: 18px 22px !important; 
+    border-radius: 14px !important;
+    max-width: 1100px;    /* makes card narrower like profile header */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* tighten header spacing in notes card */
+.notes-card .d-flex {
+    margin-bottom: 12px !important;
+}
+
+/* reduce gap between grid and card edges */
+#notesGrid {
+    margin-top: 6px;
+}
+
+/* Make note cards visually smaller */
+.notes-card {
+    width: 100%;
+    padding: 24px !important;
+    border-radius: 16px;
+}
+
+.note-card {
+    padding: 15px 28px 15px 15px !important; /* top, right, bottom, left */
+}
+
+/* Make the notes count align visually */
+#notes-count {
+    margin-left: 6px;
+    opacity: 0.7;
+}
+
+/* SORT DROPDOWN BUTTON (matches FitCore theme) */
+.sort-btn {
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 8px 16px;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.12);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    min-width: 150px;
+    justify-content: space-between;
+}
+
+.sort-btn:hover {
+    background: rgba(255,255,255,0.15);
+    color: var(--accent);
+}
+
+/* SORT MENU (reuse same styling as 3-dots dropdown) */
+.sort-menu {
+    backdrop-filter: blur(8px);
+    background: rgba(20, 24, 34, 0.9) !important;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 8px 0;
+    transform: translateY(6px);
+}
+
+/* ACTIVE OPTION HIGHLIGHT */
+.sort-option.active {
+    color: var(--accent) !important;
+    font-weight: 600;
+}
+
+/* CREATE NOTE MODAL */
+#createNoteModal .custom-modal {
+    width: 450px !important;
+    border-radius: 16px;
+}
+
+#newNoteContent {
+    resize: none;
+    padding: 12px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+#newNoteContent::placeholder {
+    color: rgba(255, 255, 255, 0.55) !important;  /* brighter */
+    font-weight: 400;
+}
+
+#newNoteContent {
+    color: #ffffff !important;   /* ensure typed text is white */
+}

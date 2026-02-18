@@ -1,0 +1,83 @@
+body {
+  background: #f7f8fa;
+  color: #1f2933;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  padding-bottom: 80px;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+p.text-muted {
+  margin-top: 4px;
+  font-size: 1rem;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e0f2ff;
+  cursor: pointer;
+}
+
+.add-floating {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  border-radius: 999px;
+  padding: 14px 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  z-index: 1500;
+  box-shadow: 0 0 12px #4cc9f0, 0 0 25px #4cc9f0, 0 0 40px #4cc9f0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.add-floating:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #4cc9f0, 0 0 35px #4cc9f0, 0 0 50px #4cc9f0;
+}
+
+.modal-content {
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+.modal-header .btn-close {
+  filter: drop-shadow(0 0 2px #4cc9f0);
+}
+
+
+/* Suggestion modal styling */
+#suggestion-modal .modal-content {
+  border-radius: 20px;
+}
+
+#suggestion-modal .modal-header {
+  background: linear-gradient(135deg, #4cc9f0, #4895ef);
+  color: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+#suggestion-modal .modal-title {
+  font-weight: 600;
+}
+
+#suggestion-list li {
+  transition: background 0.2s, transform 0.15s;
+}
+
+#suggestion-list li:hover {
+  background: #e0f2ff;
+  transform: translateX(4px);
+}
+
+.custom-add input {
+  border-radius: 12px;
+}
+
+.custom-add button {
+  border-radius: 12px;
+  font-weight: 600;
+}

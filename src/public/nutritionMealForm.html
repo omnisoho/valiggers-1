@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nutrition Tracker</title>
+    <link rel="stylesheet" href="nutritionMealForm.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+
+    <main>
+      <section class="tracker-card">
+        <h2>Add Your Meal</h2>
+        <form id="mealForm">
+          <!-- Row 1: Meal Name, Meal Type -->
+          <div class="form-row">
+            <div class="input-group">
+              <input type="text" id="mealName" placeholder=" " required />
+              <label for="mealName">Meal Name</label>
+            </div>
+
+            <div class="input-group">
+              <select id="mealType" required>
+                <option value="" disabled selected hidden></option>
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+                <option>Snack</option>
+              </select>
+              <label for="mealType">Meal Type</label>
+            </div>
+          </div>
+
+          <!-- Row 2: Calories, Protein, Fat, Sugar -->
+          <div class="form-row">
+            <div class="input-group">
+              <input type="number" id="calories" placeholder=" " required />
+              <label for="calories">Calories</label>
+            </div>
+
+            <div class="input-group">
+              <input type="number" id="protein" placeholder=" " step="0.1" required />
+              <label for="protein">Protein (g)</label>
+            </div>
+
+            <div class="input-group">
+              <input type="number" id="fat" placeholder=" " step="0.1" required />
+              <label for="fat">Fat (g)</label>
+            </div>
+
+            <div class="input-group">
+              <input type="number" id="sugar" placeholder=" " step="0.1" required />
+              <label for="sugar">Sugar (g)</label>
+            </div>
+          </div>
+
+          <!-- Photo preview -->
+          <div class="preview-box">
+            <img id="photoPreview" alt="Meal Preview" />
+          </div>
+
+          <!-- File picker button -->
+          <div class="input-group">
+            <input type="file" id="mealPhoto" accept="image/*" hidden />
+            <button type="button" class="file-btn">Choose Meal Photo</button>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn">+ Add Meal</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="nutritionMealForm.js"></script>
+  </body>
+</html>

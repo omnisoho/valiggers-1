@@ -1,0 +1,723 @@
+/* --------------------
+   Base Reset
+-------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background: #f7f8fa;
+  color: #1f2933;
+  padding: 24px;
+}
+
+
+/* --------------------
+   Header
+-------------------- */
+.app-header {
+  margin-bottom: 24px;
+}
+.meal-column {
+  flex: 0 0 70%;
+}
+
+.app-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* --------------------
+   Meal Container
+-------------------- */
+.meal-container {
+  max-width: 900px;
+  margin: 0 auto;
+   flex: 0 0 70%;
+}
+
+/* --------------------
+   Meal Card
+-------------------- */
+.meal-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+}
+
+/* --------------------
+   Meal Header
+-------------------- */
+.meal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.meal-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.meal-type {
+  background: #eef2ff;
+  color: #4338ca;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+/* --------------------
+   Ingredients
+-------------------- */
+.ingredient-list {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 12px;
+}
+.ingredient-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* name on left, controls on right */
+  padding: 10px 0;
+  gap: 12px;
+   position: relative; /* <-- important for dropdown */
+}
+
+.delete-ingredient-btn {
+  background: none;      /* no background */
+  border: none;          /* no border */
+  font-size: 1.1rem;     /* slightly bigger emoji */
+  cursor: pointer;
+  color: #9ca3af;        /* light grey emoji color */
+  text-shadow: 0 0 4px #d1d5db, 0 0 8px #d1d5db; /* subtle grey glow */
+  transition: transform 0.15s ease, text-shadow 0.15s ease;
+  padding: 0;
+}
+
+/* Hover effect: slightly stronger glow and scale up */
+.delete-ingredient-btn:hover {
+  transform: scale(1.2);
+  text-shadow: 0 0 6px #d1d5db, 0 0 12px #d1d5db, 0 0 18px #d1d5db;
+}
+
+
+
+/* Quantity input */
+.quantity-input {
+  width: 70px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  text-align: right;
+}
+
+
+/* --------------------
+   Buttons
+-------------------- */
+.meal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #4f46e5;
+  color: white;
+}
+
+.btn.secondary {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* --------------------
+   Curtains
+-------------------- */
+.curtain {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f9fafb;
+  display: none; /* JS will toggle later */
+}
+
+.curtain h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+/* --------------------
+   Guide
+-------------------- */
+.guide-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  position: relative; /* for dropdown positioning */
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.status-badge.in-stock {
+  background-color: #28a745;
+  color: white;
+}
+.status-badge.running-out {
+  background-color: #ffc107;
+  color: black;
+}
+.status-badge.out-of-stock {
+  background-color: #dc3545;
+  color: white;
+}
+/* Shopping curtain badges */
+.status-badge.purchase-pending {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+.status-badge.purchase-purchased {
+  background-color: #dcfce7;
+  color: #166534;
+}
+.status-badge.purchase-not_purchased {
+  background-color: #f87171;
+  color: white;
+}
+
+.status-bubble.out-of-stock {
+  background: linear-gradient(135deg, #dc3545, #b91c1c);
+  color: white;
+  font-weight: bold;
+  border-radius: 999px;
+  padding: 4px 10px;
+  position: relative;
+  animation: pulse 1.5s infinite;
+}
+
+.status-bubble.out-of-stock::before {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85em;
+}
+
+/* Shopping options dropdown */
+.status-options.shopping {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 10;
+  min-width: 140px; /* slightly bigger than guide curtain */
+}
+
+.status-option.shopping {
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.status-option.shopping:hover {
+  background-color: #f0f0f0;
+}
+
+.status-options.hidden {
+  display: none;
+}
+/* --------------------
+   Video Placeholder
+-------------------- */
+.video-placeholder {
+  margin-top: 12px;
+  padding: 16px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  text-align: center;
+  color: #374151;
+}
+
+/* --------------------
+   Shopping
+-------------------- */
+.shopping-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+    position: relative; /* <- add this */
+}
+
+/* Main layout: 70/30 */
+.main-layout {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 100px; /* <-- adjust to match navbar height */
+}
+
+
+
+/* Low stock panel right 30% */
+.low-stock-panel {
+    height: 50vh;   
+  flex: 0 0 30%;
+  background: #fff7ed; /* default orange alert */
+  border-left: 5px solid #f97316;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.low-stock-panel.all-stock {
+  background: #d1fae5; /* soft green */
+  border-left-color: #10b981; /* green accent */
+}
+
+.low-stock-panel h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #b45309; /* orange header */
+}
+
+.low-stock-panel.all-stock h2 {
+  color: #065f46; /* green header if all stocked */
+}
+
+.low-stock-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #fcd9b6;
+}
+
+.low-stock-item:last-child {
+  border-bottom: none;
+}
+
+.low-stock-name {
+  font-weight: 500;
+}
+
+.low-stock-status {
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.low-stock-status.running-out {
+  background-color: #fbbf24; /* yellow */
+  color: #1f2933;
+}
+
+.low-stock-status.out-of-stock {
+  background-color: #f87171; /* red */
+}
+
+
+.status-bubble.running-out {
+  background: linear-gradient(135deg, #ffc107, #ffc107);
+  color: white;
+  font-weight: bold;
+  border-radius: 999px;
+  padding: 4px 10px;
+  position: relative;
+  animation: pulse 1.5s infinite;
+}
+
+.status-bubble.running-out::before {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85em;
+}
+
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+
+/* Floating shopping button: bottom-right corner */
+.global-shopping-btn {
+  position: fixed;
+  right: 24px;      /* distance from right edge */
+  bottom: 24px;     /* distance from bottom */
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 20px;
+  font-weight: bold;
+  box-shadow: 0 10px 30px rgba(79,70,229,0.4);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Timer panels: to the left of the button, fully separated */
+.shopping-time-panel,
+.shopping-timer-panel {
+  position: fixed;
+  right: 220px;     /* push far left from button */
+  bottom: 24px;     /* align with button */
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  z-index: 999;     /* below button */
+  width: 260px;
+}
+
+.time-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.time-inputs input {
+  width: 60px;
+  padding: 6px;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.timer-display {
+  font-size: 1.8rem;
+  text-align: center;
+  margin: 16px 0;
+  font-weight: bold;
+}
+
+
+.hidden {
+  display: none !important;
+}
+
+
+
+/* =========================
+   Summary Modal
+========================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.summary-modal {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 20px;
+  width: 600px;             /* bigger width */
+  max-height: 80vh;          /* taller panel */
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.summary-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4f46e5; /* accent purple */
+}
+
+.close-btn {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  transition: 0.2s;
+}
+.close-btn:hover {
+  color: #4f46e5;
+  transform: scale(1.2);
+}
+
+.summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Each ingredient row */
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #f3f4f6;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.summary-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* Ingredient name */
+.ingredient-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex-grow: 1;
+}
+
+/* Badges wrapper */
+.summary-item div {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+
+/* --------------------
+   Quantity Unit Select
+-------------------- */
+.quantity-unit {
+  min-width: 90px;
+  padding: 7px 30px 7px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  font-size: 0.9rem;
+  color: #111827;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  /* remove default arrow */
+  appearance: none;
+
+  /* custom arrow */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
+}
+
+/* Hover */
+.quantity-unit:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+}
+
+/* Focus */
+.quantity-unit:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
+
+/* Dropdown options */
+.quantity-unit option {
+  background: white;
+  color: #111827;
+}
+
+
+/* Wrapper keeps name + bubble aligned */
+.ingredient-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+/* Warning bubble */
+.quantity-warning-bubble {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  background: #f97316;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Tooltip */
+.quantity-warning-tooltip {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+/* Show tooltip on hover */
+.quantity-warning-bubble:hover .quantity-warning-tooltip {
+  opacity: 1;
+}
+.shopping-quantity-input {
+  width: 100px;                /* compact but readable */
+  padding: 4px 8px;           /* small padding for touch targets */
+  font-size: 1rem;             /* readable font size */
+  border: 1px solid #ccc;      /* light border */
+  border-radius: 6px;          /* soft rounded corners */
+  text-align: center;          /* center the number */
+  outline: none;               /* remove default focus outline */
+  transition: all 0.2s ease;  /* smooth hover/focus transition */
+}
+
+.shopping-quantity-input:focus {
+  border-color: #4a90e2;      /* blue border on focus */
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* subtle glow */
+}
+
+.shopping-quantity-input::-webkit-inner-spin-button,
+.shopping-quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;  /* remove default browser spin buttons */
+  margin: 0;
+}
+
+.shopping-quantity-input::-moz-inner-spin-button,
+.shopping-quantity-input::-moz-outer-spin-button {
+  -moz-appearance: none;
+}
+
+
+/* Expired bubble styling */
+.expired-bubble {
+  background: #f87171; /* red */
+  color: white;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-left: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.expired-bubble:hover .expired-tooltip {
+  display: block;
+}
+
+.expired-tooltip {
+  display: none;
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f87171;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.ingredient-expired {
+  border-left: 4px solid #f87171;
+  background: #fee2e2;
+}
+
+/* Navbar search input */
+.navbar .search-wrapper input {
+  width: 200px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  transition: width 0.3s ease;
+}
+
+.navbar .search-wrapper input:focus {
+  outline: none;
+  width: 250px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* --------------------
+   Purchased Quantity Badge in Summary Modal
+-------------------- */
+.purchased-qty {
+  background: #f3f4f6;       /* soft neutral gray */
+  color: #111827;            /* dark text */
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;       /* pill shape but smaller */
+  font-size: 0.9rem;
+  min-width: 80px;
+  text-align: center;
+  margin-right: 8px;         /* little gap to the right */
+  display: inline-block;
+}
+
+/* Smaller/greyed-out badge for zero quantity */
+.purchased-qty.zero {
+  background: #e5e7eb;
+  color: #6b7280;
+}

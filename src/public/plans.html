@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Workout Tracker · Plans</title>
+    <link rel="stylesheet" href="/workOutTracker.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand" id="brandHomeButton">
+          <div class="brand-icon">🏋️</div>
+          <div>
+            <div class="brand-text-main">FitCore</div>
+            <div class="brand-text-sub">Community workout library</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="nav-section-title">Navigate</div>
+          <nav class="nav-links">
+            <a href="/workout" class="nav-link" data-nav>
+              <span class="nav-pill">🏠</span>
+              <span>Dashboard</span>
+            </a>
+            <a href="/workouts" class="nav-link" data-nav>
+              <span class="nav-pill">💪</span>
+              <span>Workouts</span>
+            </a>
+            <a href="/plans" class="nav-link" data-nav>
+              <span class="nav-pill">📅</span>
+              <span>Plans</span>
+            </a>
+            <a href="/stats" class="nav-link" data-nav>
+              <span class="nav-pill">📊</span>
+              <span>Stats</span>
+            </a>
+            <a href="/sessions" class="nav-link" data-nav>
+              <span class="nav-pill">✅</span>
+              <span>Sessions</span>
+            </a>
+          </nav>
+        </div>
+
+        <div>
+          <button id="themeToggle" class="theme-toggle">
+            <span>🌓</span>
+            <span class="theme-label">Dark</span>
+          </button>
+        </div>
+
+        <div class="nav-footer">
+          Build weekly plans from presets, mixing custom and library workouts.
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="main-header">
+          <div>
+            <div class="main-title">Plans</div>
+            <div class="main-subtitle">
+              Create presets like "Push", "Legs", "Core", then assign them to days of the week.
+            </div>
+          </div>
+          <button id="createPresetBtn" class="btn-pill">
+            + Create preset
+          </button>
+        </header>
+
+        <!-- WEEKLY PLAN OVERVIEW -->
+        <!-- WEEKLY PLAN + PRESETS SIDE BY SIDE -->
+<section class="grid grid-3">
+
+  <!-- WEEKLY PLAN CARD (unchanged) -->
+  <article class="card">
+    <div class="card-title">Weekly plan</div>
+    <div class="card-subtitle">
+      Assign presets to each day. You can reuse the same preset on multiple days.
+    </div>
+
+    <div id="weeklyPlanList" class="list" style="margin-top:10px;">
+
+      <div class="list-item">
+        <div class="list-title">Monday</div>
+        <div class="searchable-select" data-day="monday">
+  <input type="text" placeholder="Search preset..." class="search-input" autocomplete="off">
+  <div class="searchable-options"></div>
+</div>
+
+      </div>
+
+      <div class="list-item">
+        <div class="list-title">Tuesday</div>
+        <div class="searchable-select" data-day="tuesday">
+  <input type="text" placeholder="Search preset..." class="search-input" autocomplete="off">
+  <div class="searchable-options"></div>
+</div>
+
+      </div>
+
+      <div class="list-item">
+        <div class="list-title">Wednesday</div>
+        <div class="searchable-select" data-day="wednesday">
+  <input type="text" placeholder="Search preset..." class="search-input" autocomplete="off">
+  <div class="searchable-options"></div>
+</div>
+
+      </div>
+
+      <div class="list-item">
+        <div class="list-title">Thursday</div>
+        <div class="searchable-select" data-day="thursday">
+  <input type="text" placeholder="Search preset..." class="search-input" autocomplete="off">
+  <div class="searchable-options"></div>
+</div>
+
+      </div>
+
+      <div class="list-item">
+        <div class="list-title">Friday</div>
+        <div class="searchable-select" data-day="friday">
+  <input type="text" placeholder="Search preset..." class="search-input" autocomplete="off">
+  <div class="searchable-options"></div>
+</div>
+
+      </div>
+
+      <div class="list-item">
+        <div class="list-title">Saturday</div>
+        <div class="searchable-select" data-day="saturday">
+  <input type="text" placeholder="Search preset..." class="search-input" autocomplete="off">
+  <div class="searchable-options"></div>
+</div>
+
+      </div>
+
+      <div class="list-item">
+        <div class="list-title">Sunday</div>
+        <div class="searchable-select" data-day="sunday">
+  <input type="text" placeholder="Search preset..." class="search-input" autocomplete="off">
+  <div class="searchable-options"></div>
+</div>
+
+      </div>
+      <button id="resetPlanBtn" class="btn-danger" style="margin-top:10px;">
+        Reset weekly plan
+      </button>
+
+      <button id="savePlanBtn" class="btn-pill" style="margin-top:10px; width:100%;">
+        Save weekly plan
+      </button>
+      </div>
+  </article>
+
+  <!-- MERGED PRESETS CARD (replaces Tips + How It Works + bottom section) -->
+  <article class="card" style="grid-column: span 2;">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+      <div>
+        <div class="card-title">Your presets</div>
+        <div class="card-subtitle">
+          Create and manage reusable sets of exercises you can assign to your weekly plan.
+        </div>
+      </div>
+    </div>
+
+    <div id="presetsList" class="list presets-scroll" style="margin-top:12px;">
+      <!-- presets will be dynamically inserted here -->
+    </div>
+  </article>
+
+</section>
+
+      </main>
+    </div>
+
+    <!-- PRESET EDITOR MODAL -->
+    <div id="presetModalBackdrop" class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-header">
+          <div>
+            <div id="presetModalTitle" class="modal-title">Edit preset</div>
+            <div class="modal-subtext">
+              Build a session from workouts in the library or custom exercises.
+            </div>
+          </div>
+          <button id="presetModalCloseBtn" class="modal-close">Close ✕</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- BASIC PRESET INFO -->
+          <div class="modal-section-title">Basic info</div>
+          <div class="form" style="margin-bottom:8px;">
+            <input
+              id="presetNameInput"
+              class="input"
+              type="text"
+              placeholder="Preset name (e.g. Push Day, Leg Day)"
+              required
+            />
+            <input
+              id="presetDurationInput"
+              class="input"
+              type="number"
+              min="0"
+              placeholder="Estimated duration (minutes, optional)"
+            />
+            <select id="presetDifficultyInput" class="select">
+              <option value="">Difficulty (optional)</option>
+              <option value="1">1 - Very easy</option>
+              <option value="2">2 - Easy</option>
+              <option value="3">3 - Moderate</option>
+              <option value="4">4 - Hard</option>
+              <option value="5">5 - Very hard</option>
+            </select>
+          </div>
+          <textarea
+            id="presetNotesInput"
+            placeholder="Notes for this preset (e.g. 'focus on form, avoid failure')."
+          ></textarea>
+
+          <!-- WORKOUTS IN THIS PRESET -->
+          <div class="modal-section-title">Workouts in this preset</div>
+          <div id="presetItemsList" class="list"></div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
+            Use ↑ / ↓ to reorder exercises. Remove any that you don't need.
+          </div>
+
+          <!-- ADD FROM LIBRARY -->
+          <div class="modal-section-title">Add from workout library</div>
+          <div class="form" style="margin-bottom:6px;">
+            <input
+              id="librarySearchInput"
+              class="input"
+              type="text"
+              placeholder="Search workouts by name or muscle group..."
+            />
+            <select id="libraryMuscleFilter" class="select">
+              <option value="">All muscle groups</option>
+              <option value="Chest">Chest</option>
+              <option value="Back">Back</option>
+              <option value="Legs">Legs</option>
+              <option value="Shoulders">Shoulders</option>
+              <option value="Arms">Arms</option>
+              <option value="Core">Core</option>
+              <option value="Full body">Full body</option>
+            </select>
+          </div>
+          <div id="libraryResultsList" class="list"></div>
+
+          <!-- ADD CUSTOM EXERCISE -->
+          <div class="modal-section-title">Add custom exercise</div>
+          <div class="form">
+            <input
+              id="customNameInput"
+              class="input"
+              type="text"
+              placeholder="Exercise name (e.g. 'Tempo Pushup')"
+            />
+            <input
+              id="customSetsInput"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="Sets"
+            />
+            <input
+              id="customRepsInput"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="Reps"
+            />
+            <input
+              id="customDurationInput"
+              class="input"
+              type="number"
+              min="0"
+              placeholder="Duration (min, optional)"
+            />
+          </div>
+          <textarea
+            id="customNotesInput"
+            placeholder="Notes for this exercise (optional)."
+          ></textarea>
+          <button id="addCustomItemBtn" class="btn-pill" style="margin-top:6px;">
+            + Add custom exercise
+          </button>
+
+          <div style="margin-top:14px;display:flex;justify-content:space-between;gap:10px;">
+            <button id="deletePresetBtn" class="btn-danger">
+              Delete preset
+            </button>
+            <button id="savePresetBtn" class="btn-pill">
+              Save preset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const brand = document.getElementById("brandHomeButton");
+        if (brand) {
+          brand.style.cursor = "pointer";
+          brand.addEventListener("click", () => {
+            window.location.href = "/index.html";
+          });
+        }
+      });
+    </script>
+
+    <div id="presetPreviewTooltip" class="preview-tooltip"></div>
+    <script src="/js/common.js" defer></script>
+    <script src="/js/plans.js" defer></script>
+  </body>
+</html>

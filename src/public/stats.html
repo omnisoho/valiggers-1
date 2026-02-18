@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Workout Tracker · Stats</title>
+    <link rel="stylesheet" href="/workOutTracker.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand" id="brandHomeButton">
+          <div class="brand-icon">🏋️</div>
+          <div>
+            <div class="brand-text-main">FitCore</div>
+            <div class="brand-text-sub">Community workout library</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="nav-section-title">Navigate</div>
+          <nav class="nav-links">
+            <a href="/workout" class="nav-link" data-nav>
+              <span class="nav-pill">🏠</span>
+              <span>Dashboard</span>
+            </a>
+            <a href="/workouts" class="nav-link" data-nav>
+              <span class="nav-pill">💪</span>
+              <span>Workouts</span>
+            </a>
+            <a href="/plans" class="nav-link" data-nav>
+              <span class="nav-pill">📅</span>
+              <span>Plans</span>
+            </a>
+            <a href="/stats" class="nav-link" data-nav>
+              <span class="nav-pill">📊</span>
+              <span>Stats</span>
+            </a>
+            <a href="/sessions" class="nav-link" data-nav>
+              <span class="nav-pill">✅</span>
+              <span>Sessions</span>
+            </a>
+          </nav>
+        </div>
+
+        <div>
+          <button id="themeToggle" class="theme-toggle">
+            <span>🌓</span>
+            <span class="theme-label">Dark</span>
+          </button>
+        </div>
+
+        <div class="nav-footer">See which workouts are winning.</div>
+      </aside>
+
+      <main class="main">
+        <header class="main-header">
+          <div>
+            <div class="main-title">Popularity Stats</div>
+            <div class="main-subtitle">
+              Based on upvotes, downvotes and comments from the Workouts page.
+            </div>
+          </div>
+        </header>
+
+          <div
+          id="statsStateBanner"
+          class="state-banner"
+          role="status"
+          aria-live="polite"
+        >
+          <span class="state-icon" aria-hidden="true"></span>
+          <span class="state-text">Waiting to load stats…</span>
+        </div>
+
+        <!-- scrollable content area so charts don't get cut off -->
+        <div class="stats-scroll">
+          <section class="grid grid-3">
+            <article class="card fade-in">
+              <div class="card-title">Total workouts</div>
+              <div id="statsTotalWorkouts" class="card-metric">0</div>
+              <div class="card-footer">
+                <span>All workouts added by the community.</span>
+              </div>
+            </article>
+
+            <article class="card fade-in">
+              <div class="card-title">Most upvoted workout</div>
+              <div id="statsTopWorkoutName" class="card-metric">–</div>
+              <div class="card-footer">
+                <span id="statsTopWorkoutMeta">No votes yet.</span>
+              </div>
+            </article>
+
+            <article class="card fade-in">
+              <div class="card-title">Most commented workout</div>
+              <div id="statsTopCommentedName" class="card-metric">–</div>
+              <div class="card-footer">
+                <span id="statsTopCommentedMeta">No comments yet.</span>
+              </div>
+            </article>
+          </section>
+
+          <section class="card fade-in stats-chart-card">
+            <div class="card-title">Upvotes per muscle group</div>
+            <div class="card-subtitle">
+              Shows which muscle groups the community favours most.
+            </div>
+            <div class="stats-chart-body">
+              <canvas id="muscleUpvoteChart"></canvas>
+            </div>
+          </section>
+
+          <section class="card fade-in stats-chart-card">
+            <div class="card-title">Workout count per muscle group</div>
+            <div class="card-subtitle">
+              Distribution of workouts in the library.
+            </div>
+            <div class="stats-chart-body">
+              <canvas id="muscleCountChart"></canvas>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const brand = document.getElementById("brandHomeButton");
+        if (brand) {
+          brand.style.cursor = "pointer";
+          brand.addEventListener("click", () => {
+            window.location.href = "/index.html";
+          });
+        }
+      });
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"
+      defer
+    ></script>
+    <script src="/js/common.js" defer></script>
+    <script src="/js/stats.js" defer></script>
+  </body>
+</html>

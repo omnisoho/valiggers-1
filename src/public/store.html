@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitCore | Store</title>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="./louis_css/store.css" />
+</head>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay" hidden></div>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Shopping cart">
+    <header class="cart-head">
+      <div>
+        <h2 class="cart-title">Cart</h2>
+        <p class="cart-sub" id="cartSubtext">0 items</p>
+      </div>
+
+      <button class="icon-btn cart-close" id="cartCloseBtn" aria-label="Close cart">
+        <i data-lucide="x"></i>
+      </button>
+    </header>
+
+    <div class="cart-body">
+      <div class="cart-empty" id="cartEmpty">
+        <div class="cart-empty-icon">
+          <i data-lucide="shopping-cart"></i>
+        </div>
+        <p class="cart-empty-title">Your cart is empty</p>
+        <p class="cart-empty-desc">Add something and it’ll show up here.</p>
+      </div>
+
+      <div class="cart-items" id="cartItems" aria-label="Cart items"></div>
+    </div>
+
+    <footer class="cart-foot">
+      <div class="cart-total">
+        <span class="cart-total-label">Subtotal</span>
+        <span class="cart-total-value" id="cartSubtotal">$0.00</span>
+      </div>
+
+      <button class="cart-checkout" id="cartCheckoutBtn" disabled>
+        Checkout
+      </button>
+    </footer>
+  </aside>
+
+<body>
+  <!-- Sticky Top Navbar -->
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <!-- Left: Logo -->
+      <a class="brand" href="./index.html" aria-label="FitCore Home">
+        <div class="logo-box">
+          <i data-lucide="flame"></i>
+        </div>
+        <span class="brand-text">FitCore</span>
+      </a>
+
+      <!-- Middle: Search -->
+      <div class="search-wrap">
+        <i class="search-icon" data-lucide="search"></i>
+        <input
+          id="searchInput"
+          class="search-input"
+          type="search"
+          placeholder="Search supplements, clothing..."
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Right: Icons -->
+      <div class="actions">
+        <button class="icon-btn" id="favBtn" title="Favourites" aria-label="Favourites">
+          <i data-lucide="heart"></i>
+        </button>
+
+        <button class="icon-btn" id="cartBtn" title="Cart" aria-label="Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+
+        <a href="./profile.html" class="icon-btn login-btn" id="loginBtn" title="Login" aria-label="Login">
+          <i data-lucide="user"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Second Navbar (hides on scroll down, shows on scroll up) -->
+  <nav class="subnav" id="subnav">
+    <div class="subnav-inner">
+      <button class="subnav-link active" data-category="Home">Home</button>
+      <button class="subnav-link" data-category="Supplements">Supplements</button>
+      <button class="subnav-link" data-category="Women's clothing">Women's clothing</button>
+      <button class="subnav-link" data-category="Men's clothing">Men's clothing</button>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="page">
+    <section class="section-head">
+      <h1 class="title">Featured Products</h1>
+      <div class="meta">
+        <span id="productCount">0 products</span>
+      </div>
+    </section>
+
+    <section class="grid" id="productGrid" aria-label="Products"></section>
+  </main>
+
+  <script src="./louis_js/store.js" defer></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

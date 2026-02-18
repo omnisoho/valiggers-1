@@ -1,0 +1,179 @@
+/* Reset */
+* {box-sizing: border-box; margin:0; padding:0; font-family:'Inter',sans-serif;}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* start from top */
+  align-items: center;          /* center horizontally */
+  padding-top: 120px;            /* small space from top */
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #111827;
+  background: #F3F4F6; /* soft gray / your video bg */
+  overflow-y: auto;
+  flex-direction: column;
+    background-color: #000; /* black background */
+}
+
+.tracker-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(0,0,0,0.5);
+  border-radius: 25px;
+  padding: 30px 35px;      /* optional: slightly smaller vertical padding */
+  width: 90%;              /* allow it to grow with viewport */
+  max-width: 650px;        /* bigger max width */
+  min-width: 400px;        /* optional: keep it usable on small screens */
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: auto;
+}
+
+/* Input Groups */
+.input-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+}
+
+.input-group label {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  font-size: 0.85rem;
+  color: #ffffff;
+  font-weight: 500;
+  background: rgba(0,0,0,0.4);
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.input-group input,
+.input-group select {
+  padding: 16px 16px;
+  border-radius: 14px;
+  border: 2px solid rgba(0,0,0,0.5);
+  font-size: 1rem;
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  color: #000000;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #10B981; /* green on focus */
+  background: rgba(255,255,255,0.25);
+}
+
+/* Style the dropdown options */
+.input-group select option {
+  background-color: #000000;  /* dark black/gray */
+  color: #ffffff;             /* white text */
+  padding: 10px 15px;
+}
+
+/* File button - green theme */
+.file-btn {
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+  background: linear-gradient(135deg,#10B981,#047857); /* green -> dark green */
+  color:#fff;
+  box-shadow:0 8px 20px rgba(16,185,129,0.3);
+  transition: all 0.3s ease;
+  margin-top:6px;
+}
+.file-btn:hover {
+  background: linear-gradient(135deg,#047857,#065f46); /* darker green on hover */
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:0 12px 25px rgba(16,185,129,0.45);
+}
+
+.preview-box {
+  width: 100%;
+  height: 180px;        /* You can adjust the height */
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 10px;
+  display: none;         /* hidden until image is selected */
+}
+
+#photoPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* keeps image inside without stretching layout */
+  display: block;
+}
+
+/* Form Header */
+.tracker-card h2 {
+  color: #fff;            /* White header */
+  font-weight: 600;
+  margin-bottom: 35px;
+  text-align: center;
+  font-size: 2rem;
+  text-shadow: 0 0 8px rgba(0,0,0,0.7);
+}
+
+/* Buttons - unified navy theme */
+.btn,
+.file-btn,
+.consumed-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: none;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(145deg, #0b1224, #1a2236); /* darker navy gradient */
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(76, 201, 240, 0.2), 0 0 10px rgba(76, 201, 240, 0.1);
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  backdrop-filter: blur(5px); /* subtle frosted look */
+}
+
+/* Hover effect */
+.btn:hover,
+.file-btn:hover,
+.consumed-btn:hover {
+  background: linear-gradient(145deg, #1a2236, #0b1224); /* reversed gradient */
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 30px rgba(76, 201, 240, 0.4), 0 0 15px rgba(76, 201, 240, 0.2);
+}
+
+/* Optional: smooth glow animation */
+@keyframes glow {
+  0% { box-shadow: 0 6px 20px rgba(76,201,240,0.2), 0 0 10px rgba(76,201,240,0.1); }
+  50% { box-shadow: 0 6px 25px rgba(76,201,240,0.4), 0 0 15px rgba(76,201,240,0.2); }
+  100% { box-shadow: 0 6px 20px rgba(76,201,240,0.2), 0 0 10px rgba(76,201,240,0.1); }
+}
+
+.btn, .file-btn, .consumed-btn {
+  animation: glow 2s infinite ease-in-out;
+}
+
+/* Responsive */
+@media(max-width:480px){
+  .tracker-card{padding:35px 25px; max-width:90%;}
+}
+
+
+.form-row {
+  display: flex;
+  gap: 8px;             /* smaller space between inputs */
+}
+
+.form-row .input-group {
+  flex: 1;
+  min-width: 70px;      /* allow shrinking so 4 fit in row */
+}

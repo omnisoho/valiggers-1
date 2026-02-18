@@ -1,0 +1,145 @@
+/* ============================
+      GLOBAL / BACKGROUND
+============================ */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+  position: relative;
+  background-color: #000; /* black background */
+}
+
+body::after {
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.35);
+  z-index:-1;
+}
+
+/* ============================
+      HEADER
+============================ */
+.calorie-header {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0,0,0,0.7);
+  animation: fadeIn 1s ease-out;
+}
+
+/* ============================
+      PERIOD BUTTONS
+============================ */
+.custom-input {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.custom-input button {
+  padding: 15px 30px;
+  border-radius: 15px;
+  border: none;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: #f0f9ff;
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 700;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 8px 30px rgba(76, 201, 240, 0.6), 0 0 12px rgba(76, 201, 240, 0.4);
+  backdrop-filter: blur(5px);
+}
+
+.custom-input button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 45px rgba(76, 201, 240, 0.8), 0 0 20px rgba(76, 201, 240, 0.5);
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #ffffff;
+}
+
+/* ============================
+      SUMMARY TEXT
+============================ */
+#summary {
+  text-align: center;
+  font-size: 1.4rem;
+  margin: 20px auto;
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+#summary.over {
+  color: #ff3860;
+  text-shadow: 0 0 10px rgba(255,56,96,0.7);
+}
+
+/* ============================
+      CHART CONTAINER
+============================ */
+#chartContainer {
+  width: 90%;
+  max-width: 1200px;
+  height: 450px;       /* Fixed height for bar chart */
+  margin: 0 auto 30px;
+  position: relative;
+}
+
+#intakeChart {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* Center pie chart inside its container */
+#intakeChart.pie-centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.chart-glow canvas {
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0,209,255,0.5);
+  transition: box-shadow 0.4s ease;
+}
+
+/* ============================
+      TABLE
+============================ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  border-radius: 15px;
+  overflow: hidden;
+  background: rgba(30,30,30,0.85);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+th, td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #444;
+  transition: all 0.3s ease;
+}
+
+th { background: #1a2236; color: #ffffff; font-weight: 600; }
+td { color: #e0e0e0; }
+td.over { color: #ff3860; font-weight: bold; }
+
+/* ============================
+      ANIMATIONS
+============================ */
+@keyframes fadeIn { 
+  from { opacity:0; transform:translateY(-10px); } 
+  to { opacity:1; transform:translateY(0); } 
+}

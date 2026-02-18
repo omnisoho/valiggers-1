@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "@prisma/adapter-pg": "^5.20.0",
+    "@prisma/client": "^6.18.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "dotenv-cli": "^7.4.2",
+    "effect": "^3.19.8",
+    "express": "^4.21.2",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.11.1",
+    "@playwright/test": "^1.47.2",
+    "@types/node": "^22.7.2",
+    "eslint": "^9.11.1",
+    "globals": "^15.9.0",
+    "prisma": "^6.18.0"
+  },
+  "prisma": {
+    "seed": "node ./prisma/seed.js"
+  },
+  "scripts": {
+    "postinstall": "npx prisma generate",
+    "migration:dev": "dotenv -e .env.development -- npx prisma migrate dev",
+    "migration:reset": "dotenv -e .env.development -- npx prisma migrate reset",
+    "start": "dotenv -e .env.development -- node ./src/server.js",
+    "test": "dotenv -e .env.test -- playwright test --config=configs/playwright.config.js",
+    "lint": "eslint -c configs/eslint.config.mjs ./src/*",
+    "test-trace": "npm test -- --reporter=html --trace on",
+
+    "start:test": "dotenv -e .env.test -- node ./src/server.js"
+  }
+}

@@ -1,0 +1,774 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  // previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Something {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Person {
+  id     Int     @id @default(autoincrement())
+  email  String  @unique
+  name   String
+  avatar String?
+}
+
+model User {
+  user_id   Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  username  String   @unique
+  age       Int?
+  gender    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bio     String? @db.Text
+  weight  Float?
+  bodyfat Float?
+  height  Float?
+  pfpUrl  String?
+
+  // Existing relations...
+  userMeals      UserMeal[]
+  dailyIntakes   DailyIntake[]
+  workouts       Workout[]
+  comments       Comment[]
+  presets        Preset[]
+  weeklyPlan     WeeklyPlan?
+  userChallenges UserChallenge[]
+  userRewards    UserRewards?
+
+  // ADD THIS:
+  notes    Note[] // ← Opposite side of the Note → User relation
+  sessions WorkoutSession[] //ethan workout sessions
+
+  coachProfile      CoachProfile?
+  coachReviews      CoachReview[]
+  chatAsStudent     ChatConversation[] @relation("ChatStudent")
+  chatAsSender      ChatMessage[]      @relation("ChatSender")
+  bookingsAsStudent CoachBooking[]     @relation("StudentToBookings")
+
+  storeCart       StoreCart?
+  storeOrders     StoreOrder[]
+  storeFavourites StoreFavourite[]
+}
+
+model Note {
+  note_id   Int      @id @default(autoincrement())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  pinned    Boolean  @default(false)
+
+  // Relations
+  user   User @relation(fields: [userId], references: [user_id])
+  userId Int
+}
+
+model UserMeal {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  user          User     @relation(fields: [userId], references: [user_id])
+  totalCalories Int      @default(0)
+  totalProtein  Float    @default(0) // in grams
+  totalFat      Float    @default(0) // in grams
+  totalSugar    Float    @default(0) // in grams
+  calorieLimit  Int      @default(2000) // default daily calorie limit
+  meals         Meal[]
+  createdAt     DateTime @default(now())
+}
+
+model DailyIntake {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [user_id])
+  date          DateTime
+  totalCalories Int      @default(0)
+  totalProtein  Float    @default(0)
+  totalFat      Float    @default(0)
+  totalSugar    Float    @default(0)
+  calorieLimit  Int      @default(2000) // default daily calorie limit
+}
+
+// ----------------------
+// Meal: meals created by users
+// ----------------------
+model Meal {
+  id       Int    @id @default(autoincrement())
+  mealName String
+  mealType String
+  calories Int
+  protein  Float  @default(0)
+  fat      Float  @default(0)
+  sugar    Float  @default(0)
+  photoUrl String
+
+  userMealId Int
+  userMeal   UserMeal @relation(fields: [userMealId], references: [id])
+
+  mealIngredients MealIngredient[] // 👈 REQUIRED
+
+  createdAt DateTime @default(now())
+}
+
+model Ingredient {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  name   String
+
+  // Stock status (changed from guide / shopping)
+  status IngredientStatus @default(OUT_OF_STOCK)
+
+  // Shopping-related status (used later, but harmless now)
+  purchaseStatus PurchaseStatus @default(PENDING)
+
+  // Relations
+  mealIngredients MealIngredient[]
+
+  // ✅ New column for quantity
+  ingredientQuantity Float @default(0)
+
+  quantityUnit QuantityUnit @default(GRAM) // ✅ moved here
+
+  runningOutLimit Float @default(50) // <-- NEW
+  outOfStockLimit Float @default(0) // <-- NEW
+
+  // ✅ NEW
+  expiryDate DateTime?
+
+  @@unique([userId, name]) // prevent duplicate ingredient names per user
+}
+
+enum IngredientStatus {
+  IN_STOCK
+  RUNNING_OUT
+  OUT_OF_STOCK
+}
+
+enum PurchaseStatus {
+  PENDING
+  PURCHASED
+  NOT_PURCHASED
+}
+
+model MealIngredient {
+  id Int @id @default(autoincrement())
+
+  mealId       Int
+  ingredientId Int
+
+  quantity Float @default(0)
+
+  // Relations
+  meal       Meal       @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([mealId, ingredientId]) // ingredient appears once per meal
+}
+
+enum QuantityUnit {
+  GRAM
+  KILOGRAM
+  MILLILITER
+  LITER
+  TABLESPOON
+  TEASPOON
+  CUP
+  PIECE
+}
+
+model MealPreparationSession {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  mealId       Int
+  durationSec  Int
+  createdAt    DateTime @default(now())
+
+  items MealPreparationItem[]
+}
+
+
+model MealPreparationItem {
+  id          Int    @id @default(autoincrement())
+  sessionId   Int
+  ingredientId Int
+  ingredientName String
+  requiredQuantity Float
+  stockStatus String
+  preparationStatus String
+
+  session MealPreparationSession @relation(fields: [sessionId], references: [id])
+}
+
+model ShoppingSession {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  durationSec  Int
+  createdAt    DateTime @default(now())
+
+  items ShoppingSessionItem[]
+}
+
+model ShoppingSessionItem {
+  id              Int @id @default(autoincrement())
+  sessionId       Int
+  ingredientId    Int
+  ingredientName  String
+  quantityAdded   Float
+  purchaseStatus  String
+  stockStatus     String
+
+  session ShoppingSession @relation(fields: [sessionId], references: [id])
+}
+
+
+
+
+enum ResourceType {
+  ARTICLE
+  VIDEO
+  LINK
+  PDF
+}
+
+enum ResourceDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum CoachSpecialty {
+  STRENGTH
+  HYPERTROPHY
+  WEIGHT_LOSS
+  REHAB
+  MOBILITY
+  NUTRITION
+  SPORTS
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum ChatSenderRole {
+  STUDENT
+  COACH
+}
+
+model CoachProfile {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+
+  displayName String
+  bio         String?          @db.Text
+  specialties CoachSpecialty[]
+  hourlyRate  Decimal          @db.Decimal(10, 2)
+  avatarUrl   String?
+  isActive    Boolean          @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reviews       CoachReview[]
+  conversations ChatConversation[]
+
+  bookings CoachBooking[] @relation("CoachToBookings")
+}
+
+model CoachReview {
+  id Int @id @default(autoincrement())
+
+  coachId Int
+  coach   CoachProfile @relation(fields: [coachId], references: [id], onDelete: Cascade)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+
+  rating  Int // validate 1..5 in backend
+  comment String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([coachId, userId]) // one review per user per coach
+  @@index([coachId])
+  @@index([userId])
+}
+
+model CoachBooking {
+  id        Int @id @default(autoincrement())
+  coachId   Int
+  studentId Int
+
+  status  BookingStatus @default(PENDING)
+  startAt DateTime
+  endAt   DateTime
+
+  notes   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  coach   CoachProfile @relation("CoachToBookings", fields: [coachId], references: [id])
+  student User         @relation("StudentToBookings", fields: [studentId], references: [user_id])
+
+  @@index([coachId, startAt, endAt])
+  @@index([studentId, startAt])
+  @@index([status])
+}
+
+model ChatConversation {
+  id Int @id @default(autoincrement())
+
+  // The student is a user account
+  studentId Int
+  student   User @relation("ChatStudent", fields: [studentId], references: [user_id])
+
+  // The coach is a CoachProfile (which points to a User via coachProfile.userId)
+  coachId Int
+  coach   CoachProfile @relation(fields: [coachId], references: [id])
+
+  createdAt     DateTime @default(now())
+  lastMessageAt DateTime @default(now())
+
+  messages ChatMessage[]
+
+  @@unique([studentId, coachId])
+  @@index([studentId])
+  @@index([coachId])
+}
+
+model ChatMessage {
+  id             Int              @id @default(autoincrement())
+  conversationId Int
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderRole   ChatSenderRole
+  senderUserId Int
+  senderUser   User           @relation("ChatSender", fields: [senderUserId], references: [user_id])
+
+  content   String
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+
+  @@index([conversationId, createdAt])
+}
+
+model ResourceCategory {
+  id        Int        @id @default(autoincrement())
+  name      String
+  slug      String     @unique // e.g. "strength", "nutrition"
+  resources Resource[]
+}
+
+model Resource {
+  id          Int                @id @default(autoincrement())
+  title       String
+  description String
+  url         String
+  type        ResourceType
+  difficulty  ResourceDifficulty
+
+  categoryId Int
+  category   ResourceCategory @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//workout planner
+
+// ========================================
+//  WORKOUT TABLE
+// ========================================
+
+model Workout {
+  id          Int    @id @default(autoincrement())
+  name        String
+  muscleGroup String
+  difficulty  Int?
+  durationMin Int?
+  sets        Int?
+  reps        Int?
+  description String
+
+  upvotes   Int @default(0)
+  downvotes Int @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById Int?
+  createdBy   User?    @relation(fields: [createdById], references: [user_id])
+
+  comments    Comment[]
+  presetItems PresetItem[]
+
+  sessions WorkoutSession[] @relation("WorkoutToSessions")
+}
+
+model WorkoutSession {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [user_id])
+
+  date   DateTime
+  dayKey String
+
+  workoutId Int
+  // ✅ relation name MUST match Workout
+  workout   Workout @relation("WorkoutToSessions", fields: [workoutId], references: [id])
+
+  sourcePresetId        Int
+  sourcePresetUpdatedAt DateTime
+  sourcePreset          Preset   @relation("PresetSessions", fields: [sourcePresetId], references: [id])
+
+  state     String    @default("NOT_STARTED")
+  startedAt DateTime?
+  endedAt   DateTime?
+
+  isArchived Boolean   @default(false)
+  archivedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date, workoutId, isArchived])
+  @@index([userId, date])
+}
+
+// ========================================
+//  COMMENT TABLE
+// ========================================
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+
+  workoutId Int
+  workout   Workout @relation(fields: [workoutId], references: [id])
+
+  userId Int?
+  user   User? @relation(fields: [userId], references: [user_id])
+}
+
+// ========================================
+//  PRESET TABLE
+// ========================================
+
+model Preset {
+  id            Int     @id @default(autoincrement())
+  name          String
+  notes         String?
+  totalDuration Int?
+  difficulty    Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [user_id])
+
+  items PresetItem[]
+
+  // Inverse relations from WeeklyPlan
+  mondayPlans    WeeklyPlan[] @relation("MondayPreset")
+  tuesdayPlans   WeeklyPlan[] @relation("TuesdayPreset")
+  wednesdayPlans WeeklyPlan[] @relation("WednesdayPreset")
+  thursdayPlans  WeeklyPlan[] @relation("ThursdayPreset")
+  fridayPlans    WeeklyPlan[] @relation("FridayPreset")
+  saturdayPlans  WeeklyPlan[] @relation("SaturdayPreset")
+  sundayPlans    WeeklyPlan[] @relation("SundayPreset")
+
+  sessions WorkoutSession[] @relation("PresetSessions")
+}
+
+// ========================================
+//  PRESET ITEM TABLE
+// ========================================
+
+model PresetItem {
+  id    Int @id @default(autoincrement())
+  order Int
+
+  workoutId Int?
+  workout   Workout? @relation(fields: [workoutId], references: [id])
+
+  customName        String?
+  customSets        Int?
+  customReps        Int?
+  customDurationMin Int?
+  customNotes       String?
+
+  presetId Int
+  preset   Preset @relation(fields: [presetId], references: [id])
+}
+
+// ========================================
+//  WEEKLY PLAN TABLE
+// ========================================
+
+model WeeklyPlan {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [user_id])
+
+  mondayId    Int?
+  tuesdayId   Int?
+  wednesdayId Int?
+  thursdayId  Int?
+  fridayId    Int?
+  saturdayId  Int?
+  sundayId    Int?
+
+  monday    Preset? @relation("MondayPreset", fields: [mondayId], references: [id])
+  tuesday   Preset? @relation("TuesdayPreset", fields: [tuesdayId], references: [id])
+  wednesday Preset? @relation("WednesdayPreset", fields: [wednesdayId], references: [id])
+  thursday  Preset? @relation("ThursdayPreset", fields: [thursdayId], references: [id])
+  friday    Preset? @relation("FridayPreset", fields: [fridayId], references: [id])
+  saturday  Preset? @relation("SaturdayPreset", fields: [saturdayId], references: [id])
+  sunday    Preset? @relation("SundayPreset", fields: [sundayId], references: [id])
+}
+
+//aaron body part
+enum BodyPart {
+  ABS
+  ARMS
+  BACK
+  BUTT_HIPS
+  CHEST
+  SHOULDERS
+  LEGS
+  FULL_BODY
+}
+
+enum Equipment {
+  NONE
+  DUMBBELLS
+  BARBELL
+  MACHINE
+  RESISTANCE_BANDS
+  CABLES
+}
+
+model Exercise {
+  id         Int                @id @default(autoincrement())
+  name       String
+  slug       String             @unique
+  shortDesc  String
+  longDesc   String?
+  bodyPart   BodyPart
+  equipment  Equipment
+  difficulty ResourceDifficulty
+  imageUrl   String?
+  videoUrl   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// =========================
+// STORE FEATURE
+// =========================
+enum StoreCategory {
+  SUPPLEMENTS
+  WOMENS_CLOTHING
+  MENS_CLOTHING
+}
+
+model StoreProduct {
+  id          Int           @id @default(autoincrement())
+  name        String
+  slug        String        @unique
+  description String
+  price       Decimal       @db.Decimal(10, 2)
+  imageUrl    String
+  category    StoreCategory
+
+  // keep if your existing code uses it
+  isActive Boolean @default(true)
+
+  //  inventory quantities
+  stockQty    Int @default(0) // total stock you have
+  reservedQty Int @default(0) // reserved in carts/pending orders
+
+  //  inventory state (3-state machine)
+  inventoryStatus ProductInventoryStatus @default(AVAILABLE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  favouritedBy StoreFavourite[]
+  cartItems    StoreCartItem[]
+  orderItems   StoreOrderItem[]
+}
+
+enum ProductInventoryStatus {
+  AVAILABLE
+  RESERVED
+  SOLD_OUT
+}
+
+enum CartStatus {
+  ACTIVE
+  CHECKED_OUT
+  ABANDONED
+  EXPIRED
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAID
+  CANCELLED
+  EXPIRED
+}
+
+model StoreCart {
+  id        Int             @id @default(autoincrement())
+  userId    Int             @unique
+  user      User            @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+  items     StoreCartItem[]
+  status    CartStatus      @default(ACTIVE) // ✅ NEW
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model StoreOrder {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+
+  status   OrderStatus @default(PENDING_PAYMENT) // ✅ NEW “state machine”
+  subtotal Decimal     @db.Decimal(10, 2)
+
+  items StoreOrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StoreOrderItem {
+  id      Int        @id @default(autoincrement())
+  orderId Int
+  order   StoreOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId Int
+  product   StoreProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+
+  @@index([orderId])
+}
+
+model StoreCartItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  cartId Int
+  cart   StoreCart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  productId Int
+  product   StoreProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  quantity Int @default(1)
+
+  @@unique([cartId, productId]) // one row per product in cart
+}
+
+model StoreFavourite {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+
+  productId Int
+  product   StoreProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+// ========================================
+//  CHALLENGES FEATURE
+// ========================================
+
+enum ChallengeType {
+  COUNT
+  TIMER
+  BOOLEAN
+}
+
+enum UserChallengeStatus {
+  AVAILABLE
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  CANCELLED
+  EXPIRED
+}
+
+model Challenge {
+  id           Int           @id @default(autoincrement())
+  title        String
+  description  String        @db.Text
+  type         ChallengeType
+  targetValue  Int // target count, seconds for timer, or 1 for boolean
+  pointsReward Int           @default(0)
+  isActive     Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userChallenges UserChallenge[]
+}
+
+model UserChallenge {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+
+  challengeId Int
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  status        UserChallengeStatus @default(ACCEPTED)
+  progressValue Int                 @default(0)
+  acceptedAt    DateTime            @default(now())
+  dueDate       DateTime?
+  completedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, challengeId])
+  @@index([userId, status])
+}
+
+model UserRewards {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  user        User     @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+  totalPoints Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

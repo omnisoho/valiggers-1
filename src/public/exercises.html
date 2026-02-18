@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Exercise Library</title>
+  <link rel="stylesheet" href="/css/resources.css" />
+  <link rel="stylesheet" href="/css/exercises.css" />
+</head>
+<body class="resource-page-body">
+  <div class="resource-page">
+    <header class="resource-header">
+      <h1>Exercise Library</h1>
+      <a href="/index.html">Back</a>
+    </header>
+
+    <div class="exercise-layout">
+      <!-- Sidebar -->
+      <aside class="exercise-sidebar">
+        <h3>Exercises by Body Part</h3>
+        <ul>
+          <li><a href="?bodyPart=ABS">Abs</a></li>
+          <li><a href="?bodyPart=BACK">Back</a></li>
+          <li><a href="?bodyPart=CHEST">Chest</a></li>
+          <li><a href="?bodyPart=SHOULDERS">Shoulders</a></li>
+          <li><a href="?bodyPart=LEGS">Legs</a></li>
+          <li><a href="?bodyPart=FULL_BODY">Full Body</a></li>
+        </ul>
+
+        <h3>Exercises by Experience</h3>
+        <ul>
+          <li><a href="?difficulty=BEGINNER">Beginner</a></li>
+          <li><a href="?difficulty=INTERMEDIATE">Intermediate</a></li>
+          <li><a href="?difficulty=ADVANCED">Advanced</a></li>
+        </ul>
+
+        <h3>Exercises by Equipment</h3>
+        <ul>
+          <li><a href="?equipment=NONE">No Equipment</a></li>
+          <li><a href="?equipment=DUMBBELLS">Dumbbells</a></li>
+          <li><a href="?equipment=BARBELL">Barbell</a></li>
+          <li><a href="?equipment=RESISTANCE_BANDS">Resistance Bands</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main content -->
+      <main class="exercise-main">
+        <!-- Filters -->
+        <section class="exercise-filters">
+          <input
+            type="text"
+            id="exerciseSearch"
+            placeholder="Search exercises..."
+          />
+
+          <select id="exerciseBodyPart">
+            <option value="">All body parts</option>
+            <option value="ABS">Abs</option>
+            <option value="BACK">Back</option>
+            <option value="CHEST">Chest</option>
+            <option value="SHOULDERS">Shoulders</option>
+            <option value="LEGS">Legs</option>
+            <option value="FULL_BODY">Full Body</option>
+          </select>
+
+          <select id="exerciseDifficulty">
+            <option value="">All levels</option>
+            <option value="BEGINNER">Beginner</option>
+            <option value="INTERMEDIATE">Intermediate</option>
+            <option value="ADVANCED">Advanced</option>
+          </select>
+
+          <select id="exerciseEquipment">
+            <option value="">All equipment</option>
+            <option value="NONE">No Equipment</option>
+            <option value="DUMBBELLS">Dumbbells</option>
+            <option value="BARBELL">Barbell</option>
+            <option value="MACHINE">Machine</option>
+            <option value="RESISTANCE_BANDS">Resistance Bands</option>
+            <option value="CABLES">Cables</option>
+          </select>
+
+          <button id="exerciseApplyFiltersBtn">Apply filters</button>
+          <button id="exerciseResetFiltersBtn" class="reset-btn">Reset</button>
+        </section>
+
+        <div id="exerciseStatus"></div>
+
+        <!-- Featured exercise (like top big panel) -->
+        <section id="featuredExercise" class="exercise-featured">
+          <!-- JS will inject -->
+        </section>
+
+        <!-- Popular exercises grid -->
+        <section class="exercise-list-section">
+          <h2>Popular Exercises</h2>
+          <div id="exerciseList" class="exercise-list">
+            <!-- JS will inject cards -->
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="/exercises.js"></script>
+</body>
+</html>

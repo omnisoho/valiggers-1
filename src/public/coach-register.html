@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Become a Coach</title>
+
+  <!-- Reuse the same CSS theme as coaches page -->
+  <link rel="stylesheet" href="css/coaches.css" />
+</head>
+
+<body>
+  <header class="page-header">
+    <div class="navwrap">
+      <div class="navbar">
+        <a class="nav-brand" href="/coaches-page" aria-label="Go to Coaching Marketplace">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-text">Coaching Marketplace</span>
+        </a>
+
+        <nav class="nav">
+          <div class="nav-group">
+            <a class="nav-link" href="/coaches-page">Browse coaches</a>
+            <a class="nav-link" href="/how-it-works">How it works</a>
+          </div>
+
+          <a class="cta-primary" href="/coaches-page">Back to coaches</a>
+        </nav>
+
+        <div class="nav-actions">
+          <div class="nav-search" title="This page doesn't use search">
+            <span class="nav-search-icon" aria-hidden="true">✨</span>
+            <input type="text" value="Create your coach profile" disabled />
+          </div>
+          <button class="nav-btn" type="button" onclick="window.location.href='/coaches-page'">
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <p class="nav-sub">
+        Set your specialties, pricing, and bio. Your profile will appear on the marketplace.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div id="status" class="status"></div>
+
+    <!-- Use .card styling to match the marketplace -->
+    <section class="card" style="padding:18px; display:block;">
+      <div style="display:flex; gap:14px; align-items:flex-start;">
+        <div class="avatar" id="previewAvatar" style="width:64px;height:64px;">
+          <span>👤</span>
+        </div>
+
+        <div style="flex:1; min-width:0;">
+          <h3 style="margin:0 0 4px; font-size:18px;">
+            <span id="previewName">Your coach name</span>
+            <span style="color:rgba(255,255,255,0.65); font-weight:500; font-size:13px;">
+              • preview
+            </span>
+          </h3>
+
+          <div class="meta" style="margin:6px 0 10px;">
+            <span class="pill" id="previewRate">$0/hr</span>
+            <span class="pill" id="previewRating">New coach</span>
+            <span class="pill" id="previewSpecPill">Pick specialties below</span>
+          </div>
+
+          <p class="desc" id="previewBio" style="margin:0;">
+            Add a short bio so students know what you offer.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form styled like your filter panel -->
+    <section class="controls" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+      <form id="coachForm" style="grid-column: 1 / -1; display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:12px;">
+        <div class="control">
+          <label for="displayName">Display Name</label>
+          <input id="displayName" type="text" placeholder="e.g. Coach Aaron" required />
+        </div>
+
+        <div class="control">
+          <label for="hourlyRate">Hourly Rate ($/hr)</label>
+          <input id="hourlyRate" type="number" min="0" step="1" placeholder="e.g. 50" required />
+        </div>
+
+        <div class="control" style="grid-column:1 / -1;">
+          <label for="bio">Bio</label>
+          <input id="bio" type="text" placeholder="e.g. I help beginners build strength safely..." />
+        </div>
+
+        <div class="control" style="grid-column:1 / -1;">
+          <label>Specialties</label>
+
+          <!-- Same visual language: pills -->
+          <div id="specPills" class="meta" style="margin:0;"></div>
+
+          <!-- Checkbox list -->
+            <div class="spec-grid">
+              <label class="spec-chip">
+                <input type="checkbox" value="STRENGTH">
+                Strength
+              </label>
+
+              <label class="spec-chip">
+                <input type="checkbox" value="HYPERTROPHY">
+                Hypertrophy
+              </label>
+
+              <label class="spec-chip">
+                <input type="checkbox" value="WEIGHT_LOSS">
+                Weight Loss
+              </label>
+
+              <label class="spec-chip">
+                <input type="checkbox" value="REHAB">
+                Rehab
+              </label>
+
+              <label class="spec-chip">
+                <input type="checkbox" value="MOBILITY">
+                Mobility
+              </label>
+
+              <label class="spec-chip">
+                <input type="checkbox" value="NUTRITION">
+                Nutrition
+              </label>
+
+              <label class="spec-chip">
+                <input type="checkbox" value="SPORTS">
+                Sports
+              </label>
+            </div>
+        </div>
+
+        <div class="control" style="grid-column:1 / -1;">
+          <label for="avatarUrl">Avatar URL (optional)</label>
+          <input id="avatarUrl" type="text" placeholder="https://..." />
+        </div>
+
+        <div class="control buttons" style="grid-column: 1 / -1;">
+          <button type="submit">Create Profile</button>
+          <button type="button" class="secondary" onclick="window.location.href='/coaches-page'">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="bottom-cta" style="margin-top:16px;">
+      <div class="bottom-cta__text">
+        <div class="bottom-cta__title">Tip</div>
+        <div class="bottom-cta__sub">Keep your bio short and clear — students skim.</div>
+      </div>
+      <a class="bottom-cta__btn" href="/coaches-page">View marketplace</a>
+    </section>
+
+  </main>
+
+  <script src="coach-register.js"></script>
+
+  <!-- Small inline preview script (no backend changes) -->
+  <script>
+    const nameEl = document.getElementById("displayName");
+    const rateEl = document.getElementById("hourlyRate");
+    const bioEl = document.getElementById("bio");
+    const avatarEl = document.getElementById("avatarUrl");
+
+    const previewName = document.getElementById("previewName");
+    const previewRate = document.getElementById("previewRate");
+    const previewBio = document.getElementById("previewBio");
+    const previewAvatar = document.getElementById("previewAvatar");
+    const previewSpecPill = document.getElementById("previewSpecPill");
+    const specPills = document.getElementById("specPills");
+
+    const specLabel = {
+      STRENGTH: "Strength",
+      HYPERTROPHY: "Hypertrophy",
+      WEIGHT_LOSS: "Weight Loss",
+      REHAB: "Rehab",
+      MOBILITY: "Mobility",
+      NUTRITION: "Nutrition",
+      SPORTS: "Sports",
+    };
+
+    function setAvatar(url){
+      previewAvatar.innerHTML = "";
+      if (!url) {
+        const s = document.createElement("span");
+        s.textContent = "👤";
+        previewAvatar.appendChild(s);
+        return;
+      }
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = "avatar";
+      img.onerror = () => { previewAvatar.innerHTML = "<span>👤</span>"; };
+      previewAvatar.appendChild(img);
+    }
+
+    function updateSpecs(){
+      const checked = [...document.querySelectorAll('input[type="checkbox"]:checked')].map(x => x.value);
+      specPills.innerHTML = "";
+
+      if (!checked.length){
+        previewSpecPill.textContent = "Pick specialties below";
+        return;
+      }
+
+      previewSpecPill.textContent = specLabel[checked[0]] || checked[0];
+
+      checked.slice(0, 6).forEach(s => {
+        const pill = document.createElement("span");
+        pill.className = "pill";
+        pill.textContent = specLabel[s] || s;
+        specPills.appendChild(pill);
+      });
+    }
+
+    function updatePreview(){
+      previewName.textContent = (nameEl.value || "").trim() || "Your coach name";
+      const r = Number(rateEl.value);
+      previewRate.textContent = Number.isFinite(r) ? `$${r.toFixed(0)}/hr` : "$0/hr";
+      previewBio.textContent = (bioEl.value || "").trim() || "Add a short bio so students know what you offer.";
+      setAvatar((avatarEl.value || "").trim());
+      updateSpecs();
+    }
+
+    document.querySelectorAll("input, textarea").forEach(el => {
+      el.addEventListener("input", updatePreview);
+      el.addEventListener("change", updatePreview);
+    });
+
+    updatePreview();
+  </script>
+</body>
+</html>
