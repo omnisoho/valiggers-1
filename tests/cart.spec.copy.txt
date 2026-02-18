@@ -8,6 +8,9 @@ const storageStatePath = path.join(__dirname, 'cart.storageState.json');
 const credsPath = path.join(__dirname, 'cart.e2eData.json');
 const prisma = new PrismaClient();
 
+// CI-specific timeout multiplier
+const CI_TIMEOUT_MULTIPLIER = process.env.CI ? 3 : 1;
+
 async function releaseReservedForUserCart(userId) {
   const cart = await prisma.storeCart.findUnique({
     where: { userId },
@@ -41,7 +44,43 @@ async function releaseReservedForUserCart(userId) {
 async function waitForProductsToRender(page) {
   const grid = page.locator('#productGrid');
   await expect(grid).toBeVisible();
-  await expect(page.locator('#productGrid .card').first()).toBeVisible({ timeout: 10000 });
+  await expect(page.locator('#productGrid .card').first()).toBeVisible({ timeout: 10000 * CI_TIMEOUT_MULTIPLIER });
+}
+
+async function closeCartDrawerSafely(page) {
+  // Check if cart is actually open before trying to close
+  const bodyClass = await page.locator('body').getAttribute('class');
+  if (!bodyClass || !bodyClass.includes('cart-open')) {
+    return; // Already closed
+  }
+
+  // Try pressing Escape first
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(300);
+
+  // Check if still open
+  const stillOpen = (await page.locator('body').getAttribute('class'))?.includes('cart-open');
+  if (stillOpen) {
+    // Try close button if visible
+    const closeBtn = page.locator('#cartCloseBtn');
+    if (await closeBtn.isVisible()) {
+      await closeBtn.click();
+      await page.waitForTimeout(300);
+    }
+
+    // Last resort: click overlay
+    const stillOpenAfterBtn = (await page.locator('body').getAttribute('class'))?.includes('cart-open');
+    if (stillOpenAfterBtn) {
+      const overlay = page.locator('#cartOverlay');
+      if (await overlay.isVisible()) {
+        await overlay.click();
+        await page.waitForTimeout(300);
+      }
+    }
+  }
+
+  // Wait for cart to actually close
+  await expect(page.locator('body')).not.toHaveClass(/cart-open/, { timeout: 5000 * CI_TIMEOUT_MULTIPLIER });
 }
 
 async function addAnyAvailableProductAndOpenCart(page) {
@@ -52,42 +91,45 @@ async function addAnyAvailableProductAndOpenCart(page) {
 
   const onDialog = async (dialog) => {
     dialogMessage = dialog.message();
-    await dialog.accept().catch(() => {});
+    await dialog.accept();
   };
   page.on('dialog', onDialog);
 
   try {
     for (let i = 0; i < count; i += 1) {
-      if ((await page.locator('body').getAttribute('class'))?.includes('cart-open')) {
-        await page.keyboard.press('Escape').catch(() => {});
-        await page.click('#cartCloseBtn').catch(() => {});
-        await page.click('#cartOverlay').catch(() => {});
-        await expect(page.locator('body')).not.toHaveClass(/cart-open/, { timeout: 6000 });
-      }
+      // Close cart drawer if it's open
+      await closeCartDrawerSafely(page);
 
       const btn = addButtons.nth(i);
       const productId = Number(await btn.getAttribute('data-product-id'));
       if (!productId) continue;
 
       dialogMessage = '';
-      try {
-        await btn.click();
-      } catch (e) {
+      
+      // Wait for button to be actionable
+      await btn.waitFor({ state: 'visible', timeout: 5000 });
+      await btn.scrollIntoViewIfNeeded();
+      
+      await btn.click();
+      
+      // Wait for either cart to open OR dialog to appear
+      await page.waitForTimeout(500);
+
+      // Check if dialog appeared (out of stock)
+      if (dialogMessage && String(dialogMessage).toLowerCase().includes('out of stock')) {
+        outOfStockSeen = true;
         continue;
       }
 
+      // Wait for cart to open
       try {
-        await expect(page.locator('body')).toHaveClass(/cart-open/, { timeout: 4000 });
+        await expect(page.locator('body')).toHaveClass(/cart-open/, { timeout: 6000 * CI_TIMEOUT_MULTIPLIER });
         const row = page.locator(`.qty-control[data-product-id="${productId}"]`).first();
-        if ((await row.count()) > 0) {
-          await expect(row).toBeVisible({ timeout: 4000 });
-          return { productId };
-        }
+        await expect(row).toBeVisible({ timeout: 4000 * CI_TIMEOUT_MULTIPLIER });
+        return { productId };
       } catch (err) {
-        if (String(dialogMessage).toLowerCase().includes('out of stock')) {
-          outOfStockSeen = true;
-          continue;
-        }
+        // If cart didn't open, continue to next product
+        continue;
       }
     }
   } finally {
@@ -99,20 +141,22 @@ async function addAnyAvailableProductAndOpenCart(page) {
 
 async function openCartDrawer(page) {
   await page.click('#cartBtn');
-  await expect(page.locator('body')).toHaveClass(/cart-open/);
+  await expect(page.locator('body')).toHaveClass(/cart-open/, { timeout: 5000 * CI_TIMEOUT_MULTIPLIER });
   await expect(page.locator('#cartDrawer')).toHaveAttribute('aria-hidden', 'false');
 }
 
 async function closeCartDrawerByCloseBtn(page) {
   await page.click('#cartCloseBtn');
-  await expect(page.locator('body')).not.toHaveClass(/cart-open/);
+  await page.waitForTimeout(300);
+  await expect(page.locator('body')).not.toHaveClass(/cart-open/, { timeout: 5000 * CI_TIMEOUT_MULTIPLIER });
   await expect(page.locator('#cartDrawer')).toHaveAttribute('aria-hidden', 'true');
 }
 
 async function closeCartDrawerByOverlay(page) {
   // overlay exists even when hidden; click it when open
   await page.click('#cartOverlay');
-  await expect(page.locator('body')).not.toHaveClass(/cart-open/);
+  await page.waitForTimeout(300);
+  await expect(page.locator('body')).not.toHaveClass(/cart-open/, { timeout: 5000 * CI_TIMEOUT_MULTIPLIER });
   await expect(page.locator('#cartDrawer')).toHaveAttribute('aria-hidden', 'true');
 }
 
@@ -131,7 +175,7 @@ async function registerAndLoginAndSaveState(browser) {
   await page.fill('#registerPassword', password);
 
   await Promise.all([
-    page.waitForNavigation({ url: '**/login.html' }),
+    page.waitForNavigation({ url: '**/login.html', timeout: 10000 * CI_TIMEOUT_MULTIPLIER }),
     page.click('#registerSubmit'),
   ]);
 
@@ -140,9 +184,12 @@ async function registerAndLoginAndSaveState(browser) {
   await page.fill('#loginPassword', password);
 
   await Promise.all([
-    page.waitForNavigation({ url: '**/index.html' }),
+    page.waitForNavigation({ url: '**/index.html', timeout: 10000 * CI_TIMEOUT_MULTIPLIER }),
     page.click('#loginSubmit'),
   ]);
+
+  // Wait for any async operations to complete
+  await page.waitForLoadState('networkidle');
 
   // Persist state (cookies/localStorage token) so other tests are already logged in
   await context.storageState({ path: storageStatePath });
